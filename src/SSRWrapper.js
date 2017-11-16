@@ -36,6 +36,8 @@ class SSRWrapper extends Component {
 
   async componentDidMount() {
     const {
+      componentProps,
+
       ssrId,
       ssr: {
         isReady,
@@ -58,7 +60,7 @@ class SSRWrapper extends Component {
     }
 
     try {
-      const context = await getContext(loadParams);
+      const context = await getContext(loadParams, componentProps);
 
       loadContextSuccess(ssrId, context);
     } catch (error) {
