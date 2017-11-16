@@ -1,0 +1,72 @@
+{
+  "name": "react-redux-ssr",
+  "version": "0.1.0",
+  "description": "A Higher Order Component using react-redux for creating lists with filters, sotring, paginatinon, endless scroll etc.",
+  "main": "./dist/react-redux-ssr.js",
+  "scripts": {
+    "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
+    "build:lib": "babel src --out-dir lib --ignore __tests__,test-utils",
+    "build:umd": "cross-env NODE_ENV=development webpack",
+    "build:umd:min": "cross-env NODE_ENV=production webpack",
+    "lint": "eslint src",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "jest",
+    "test:unit:watch": "jest --watchAll",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vtaits/react-redux-ssr.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "redux",
+    "ssr",
+    "react-redux-ssr",
+    "decorator",
+    "context"
+  ],
+  "author": "Vadim Taits",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vtaits/react-redux-ssr/issues"
+  },
+  "homepage": "https://github.com/vtaits/react-redux-ssr#readme",
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0",
+    "react-redux": "^4.3.0 || ^5.0.0",
+    "redux": "^3.0.0",
+    "prop-types": "^15.6.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-jest": "^21.2.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "check-prop-types": "^1.1.1",
+    "cross-env": "^5.1.1",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.3.2",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "flux-standard-action": "^2.0.0",
+    "jest": "^21.2.1",
+    "path": "^0.12.7",
+    "prop-types": "^15.6.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-redux": "^5.0.6",
+    "react-test-renderer": "^16.1.1",
+    "redux": "^3.7.2",
+    "sinon": "^4.1.2",
+    "webpack": "^3.8.1"
+  }
+}
