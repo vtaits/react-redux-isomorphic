@@ -21,7 +21,7 @@ export const componentInitialState = {
 };
 
 export function componentReducer(state = componentInitialState, action) {
-  switch (action) {
+  switch (action.type) {
     case LOAD_CONTEXT:
       return {
         ...state,
@@ -127,7 +127,7 @@ export default function reactReduxSSR(state = initialState, action) {
 
     case DESTROY:
       invariant(
-        state.pendingComponents.includes(action.payload.ssrId),
+        state.componentsParams[action.payload.ssrId],
         `Components with ssrId "${action.payload.ssrId}" is not registered`,
       );
 
