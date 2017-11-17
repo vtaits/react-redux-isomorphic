@@ -28,7 +28,7 @@ const createStore = (initialState) => {
 
 test('should call if pendingComponents length is 0', async (done) => {
   const store = createStore({
-    reactReduxSSR: {
+    reactReduxIsomorphic: {
       pendingComponents: [],
     },
   });
@@ -40,7 +40,7 @@ test('should call if pendingComponents length is 0', async (done) => {
 
 test('should call after pendingComponents length is becoming 0', async () => {
   const store = createStore({
-    reactReduxSSR: {
+    reactReduxIsomorphic: {
       pendingComponents: ['test1', 'test2'],
     },
   });
@@ -53,7 +53,7 @@ test('should call after pendingComponents length is becoming 0', async () => {
     call1 = true;
 
     store.dispatch({
-      reactReduxSSR: {
+      reactReduxIsomorphic: {
         pendingComponents: ['test1'],
       },
     });
@@ -62,7 +62,7 @@ test('should call after pendingComponents length is becoming 0', async () => {
       call2 = true;
 
       store.dispatch({
-        reactReduxSSR: {
+        reactReduxIsomorphic: {
           pendingComponents: [],
         },
       });
@@ -71,7 +71,7 @@ test('should call after pendingComponents length is becoming 0', async () => {
         call3 = true;
 
         store.dispatch({
-          reactReduxSSR: {
+          reactReduxIsomorphic: {
             pendingComponents: [],
           },
         });

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
 
-import { reactReduxSSRContextTypes } from '../contextTypes';
+import { reactReduxIsomorphicContextTypes } from '../contextTypes';
 
-import SSRProvider from '../SSRProvider';
+import IsomorphicProvider from '../IsomorphicProvider';
 
 class TestComponent extends Component {
   static contextTypes = {
-    reactReduxSSR: reactReduxSSRContextTypes.isRequired,
+    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
   }
 
   static propTypes = {
@@ -28,14 +28,14 @@ class TestComponent extends Component {
 
 test('should provide default loadParams', done => {
   const wrapper = mount(
-    <SSRProvider>
+    <IsomorphicProvider>
       <TestComponent
         checkContext={(context) => {
-          expect(context.reactReduxSSR.loadParams).toEqual({});
+          expect(context.reactReduxIsomorphic.loadParams).toEqual({});
           done();
         }}
       />
-    </SSRProvider>
+    </IsomorphicProvider>
   );
 
   expect(wrapper.find(TestComponent).length).toEqual(1);
@@ -45,20 +45,20 @@ test('should provide loadParams from props', done => {
   const fetch = () => Promise.resolve(123);
 
   const wrapper = mount(
-    <SSRProvider loadParams={{
+    <IsomorphicProvider loadParams={{
       fetch,
       isServerRender: true,
     }}>
       <TestComponent
         checkContext={(context) => {
-          expect(context.reactReduxSSR.loadParams).toEqual({
+          expect(context.reactReduxIsomorphic.loadParams).toEqual({
             fetch,
             isServerRender: true,
           });
           done();
         }}
       />
-    </SSRProvider>
+    </IsomorphicProvider>
   );
 
   expect(wrapper.find(TestComponent).length).toEqual(1);

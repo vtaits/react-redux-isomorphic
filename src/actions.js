@@ -6,40 +6,40 @@ import {
   DESTROY,
 } from './actionsTypes';
 
-export function loadContext(ssrId) {
+export function loadContext(isomorphicId) {
   return {
     type: LOAD_CONTEXT,
     payload: {
-      ssrId,
+      isomorphicId,
     },
   };
 }
 
-export function loadContextSuccess(ssrId, context) {
+export function loadContextSuccess(isomorphicId, context) {
   return {
     type: LOAD_CONTEXT_SUCCESS,
     payload: {
-      ssrId,
+      isomorphicId,
       context,
     },
   };
 }
 
-export function loadContextError(ssrId, error) {
+export function loadContextError(isomorphicId, error) {
   return {
     type: LOAD_CONTEXT_ERROR,
     payload: {
-      ssrId,
+      isomorphicId,
       error,
     },
   };
 }
 
-export function destroy(ssrId) {
+export function destroy(isomorphicId) {
   return {
     type: DESTROY,
     payload: {
-      ssrId,
+      isomorphicId,
     },
   };
 }

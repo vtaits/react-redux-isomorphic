@@ -1,6 +1,6 @@
 export function isAllComponentsLoaded(store) {
   const {
-    reactReduxSSR: {
+    reactReduxIsomorphic: {
       pendingComponents,
     },
   } = store.getState();

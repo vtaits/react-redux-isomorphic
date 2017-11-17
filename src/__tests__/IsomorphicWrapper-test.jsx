@@ -1,21 +1,21 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import { ssrProps } from '../fixtures';
+import { isomorphicProps } from '../fixtures';
 
-import SSRWrapper from '../SSRWrapper';
+import IsomorphicWrapper from '../IsomorphicWrapper';
 
 const TestComponent = () => <div />;
 
 const defaultProps = {
-  ...ssrProps,
+  ...isomorphicProps,
 
   component: TestComponent,
   componentProps: {
     prop: 'value',
   },
 
-  ssrId: 'test',
+  isomorphicId: 'test',
 
   getContext: () => {},
 
@@ -27,7 +27,7 @@ const defaultProps = {
 };
 
 const reactContext = {
-  reactReduxSSR: {
+  reactReduxIsomorphic: {
     loadParams: {
       fetch: () => Promise.resolve(123),
       isServerRender: true,
@@ -37,7 +37,7 @@ const reactContext = {
 
 test('should render TestComponent with correct props', () => {
   const wrapper = shallow(
-    <SSRWrapper
+    <IsomorphicWrapper
       {...defaultProps}
     />,
     {
@@ -48,15 +48,15 @@ test('should render TestComponent with correct props', () => {
   const testComponentNode = wrapper.find(TestComponent);
   expect(testComponentNode.length).toEqual(1);
   expect(testComponentNode.prop('prop')).toEqual('value');
-  expect(testComponentNode.prop('ssr')).toBeTruthy();
-  expect(testComponentNode.prop('ssr')).toBe(defaultProps.ssr);
+  expect(testComponentNode.prop('isomorphic')).toBeTruthy();
+  expect(testComponentNode.prop('isomorphic')).toBe(defaultProps.isomorphic);
 });
 
 test('should call loadContext on init if not ready', () => {
   const loadContext = jest.fn();
 
   shallow(
-    <SSRWrapper
+    <IsomorphicWrapper
       {...defaultProps}
       loadContext={loadContext}
     />,
@@ -73,10 +73,10 @@ test('should not call loadContext on init if ready', () => {
   const loadContext = jest.fn();
 
   shallow(
-    <SSRWrapper
+    <IsomorphicWrapper
       {...defaultProps}
-      ssr={{
-        ...defaultProps.ssr,
+      isomorphic={{
+        ...defaultProps.isomorphic,
         isReady: true,
       }}
       loadContext={loadContext}
@@ -95,7 +95,7 @@ test('should call getContext and loadContextSuccess', done => {
   let isLoadContextErrorCalled = false;
 
   shallow(
-    <SSRWrapper
+    <IsomorphicWrapper
       {...defaultProps}
       getContext={(arg1, arg2) => {
         expect(isGetContextCalled).toEqual(false);
@@ -104,7 +104,7 @@ test('should call getContext and loadContextSuccess', done => {
 
         isGetContextCalled = true;
 
-        expect(arg1).toEqual(reactContext.reactReduxSSR.loadParams);
+        expect(arg1).toEqual(reactContext.reactReduxIsomorphic.loadParams);
         expect(arg2).toEqual({
           prop: 'value',
         });
@@ -139,7 +139,7 @@ test('should call getContext and loadContextError', done => {
   let isLoadContextErrorCalled = false;
 
   shallow(
-    <SSRWrapper
+    <IsomorphicWrapper
       {...defaultProps}
       getContext={(arg1, arg2) => {
         expect(isGetContextCalled).toEqual(false);
@@ -148,7 +148,7 @@ test('should call getContext and loadContextError', done => {
 
         isGetContextCalled = true;
 
-        expect(arg1).toEqual(reactContext.reactReduxSSR.loadParams);
+        expect(arg1).toEqual(reactContext.reactReduxIsomorphic.loadParams);
         expect(arg2).toEqual({
           prop: 'value',
         });
@@ -183,10 +183,10 @@ test('should not call getContext, loadContextSuccess and loadContextError  if re
   let isLoadContextErrorCalled = false;
 
   shallow(
-    <SSRWrapper
+    <IsomorphicWrapper
       {...defaultProps}
-      ssr={{
-        ...defaultProps.ssr,
+      isomorphic={{
+        ...defaultProps.isomorphic,
         isReady: true,
       }}
       getContext={(arg1, arg2) => {
@@ -217,7 +217,7 @@ test('should call destroy on unmount', () => {
   const destroy = jest.fn();
 
   const wrapper = shallow(
-    <SSRWrapper
+    <IsomorphicWrapper
       {...defaultProps}
       destroy={destroy}
     />,

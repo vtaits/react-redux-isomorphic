@@ -1,8 +1,8 @@
 export {
-  ssrIdPropTypes,
-  ssrPropTypes,
+  isomorphicIdPropTypes,
+  isomorphicPropTypes,
 } from './propTypes';
 export { default as reducer } from './reducer';
-export { default as ssrDecorator } from './ssrDecorator';
-export { default as SSRProvider } from './SSRProvider';
+export { default as isomorphic } from './isomorphic';
+export { default as IsomorphicProvider } from './IsomorphicProvider';
 export { default as waitForContext } from './waitForContext';

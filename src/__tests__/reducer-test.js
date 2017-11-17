@@ -39,7 +39,7 @@ test('should respond loadContext action', () => {
   });
 });
 
-test('should throw error if loadContext calls multiple times with same ssrId', () => {
+test('should throw error if loadContext calls multiple times with same isomorphicId', () => {
   expect(() => {
     const state = reducer(undefined, loadContext('test1'));
     reducer(state, loadContext('test1'));

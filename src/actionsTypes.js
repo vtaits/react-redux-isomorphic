@@ -1,4 +1,4 @@
-export const prefix = '@@react-redux-ssr/';
+export const prefix = '@@react-redux-isomorphic/';
 
 export const LOAD_CONTEXT = `${prefix}LOAD_CONTEXT`;
 export const LOAD_CONTEXT_SUCCESS = `${prefix}LOAD_CONTEXT_SUCCESS`;

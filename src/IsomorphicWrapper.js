@@ -1,21 +1,21 @@
 import { createElement, Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { reactReduxSSRContextTypes } from './contextTypes';
-import { ssrIdPropTypes, ssrPropTypes } from './propTypes';
+import { reactReduxIsomorphicContextTypes } from './contextTypes';
+import { isomorphicIdPropTypes, isomorphicPropTypes } from './propTypes';
 
-class SSRWrapper extends Component {
+class IsomorphicWrapper extends Component {
   static contextTypes = {
-    reactReduxSSR: reactReduxSSRContextTypes.isRequired,
+    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
   };
 
   static propTypes = {
     component: PropTypes.func.isRequired,
     componentProps: PropTypes.object.isRequired,
 
-    ssrId: ssrIdPropTypes.isRequired,
+    isomorphicId: isomorphicIdPropTypes.isRequired,
 
-    ssr: ssrPropTypes({}).isRequired,
+    isomorphic: isomorphicPropTypes({}).isRequired,
 
     getContext: PropTypes.func.isRequired,
 
@@ -29,8 +29,8 @@ class SSRWrapper extends Component {
   constructor(props) {
     super(props);
 
-    if (!props.ssr.isReady) {
-      props.loadContext(props.ssrId);
+    if (!props.isomorphic.isReady) {
+      props.loadContext(props.isomorphicId);
     }
   }
 
@@ -38,8 +38,8 @@ class SSRWrapper extends Component {
     const {
       componentProps,
 
-      ssrId,
-      ssr: {
+      isomorphicId,
+      isomorphic: {
         isReady,
       },
 
@@ -50,7 +50,7 @@ class SSRWrapper extends Component {
     } = this.props;
 
     const {
-      reactReduxSSR: {
+      reactReduxIsomorphic: {
         loadParams,
       },
     } = this.context;
@@ -62,24 +62,24 @@ class SSRWrapper extends Component {
     try {
       const context = await getContext(loadParams, componentProps);
 
-      loadContextSuccess(ssrId, context);
+      loadContextSuccess(isomorphicId, context);
     } catch (error) {
-      loadContextError(ssrId, error);
+      loadContextError(isomorphicId, error);
     }
   }
 
   componentWillUnmount() {
     const {
-      ssrId,
+      isomorphicId,
       destroy,
     } = this.props;
 
-    destroy(ssrId);
+    destroy(isomorphicId);
   }
 
   render() {
     const {
-      ssr,
+      isomorphic,
 
       component,
       componentProps,
@@ -87,9 +87,9 @@ class SSRWrapper extends Component {
 
     return createElement(component, {
       ...componentProps,
-      ssr,
+      isomorphic,
     });
   }
 }
 
-export default SSRWrapper;
+export default IsomorphicWrapper;

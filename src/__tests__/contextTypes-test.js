@@ -1,14 +1,14 @@
 import checkPropTypes from 'check-prop-types';
 
-import { reactReduxSSRContextTypes } from '../contextTypes';
+import { reactReduxIsomorphicContextTypes } from '../contextTypes';
 
 test('should accept object with params', () => {
   expect(checkPropTypes(
     {
-      reactReduxSSR: reactReduxSSRContextTypes,
+      reactReduxIsomorphic: reactReduxIsomorphicContextTypes,
     },
     {
-      reactReduxSSR: {
+      reactReduxIsomorphic: {
         fetch: () => {},
         isServerRender: true,
       },

@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { reactReduxSSRContextTypes } from './contextTypes';
+import { reactReduxIsomorphicContextTypes } from './contextTypes';
 
-class SSRProvider extends Component {
+class IsomorphicProvider extends Component {
   static childContextTypes = {
-    reactReduxSSR: reactReduxSSRContextTypes.isRequired,
+    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
   }
 
   static propTypes = {
@@ -20,7 +20,7 @@ class SSRProvider extends Component {
 
   getChildContext() {
     return {
-      reactReduxSSR: {
+      reactReduxIsomorphic: {
         loadParams: this.props.loadParams,
       },
     };
@@ -31,4 +31,4 @@ class SSRProvider extends Component {
   }
 }
 
-export default SSRProvider;
+export default IsomorphicProvider;

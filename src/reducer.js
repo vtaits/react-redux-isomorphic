@@ -52,24 +52,24 @@ export function componentReducer(state = componentInitialState, action) {
   }
 }
 
-export default function reactReduxSSR(state = initialState, action) {
+export default function reactReduxIsomorphic(state = initialState, action) {
   switch (action.type) {
     case LOAD_CONTEXT:
       invariant(
-        !state.pendingComponents.includes(action.payload.ssrId),
-        `Duplication of components with ssrId "${action.payload.ssrId}"`,
+        !state.pendingComponents.includes(action.payload.isomorphicId),
+        `Duplication of components with isomorphicId "${action.payload.isomorphicId}"`,
       );
 
       return {
         ...state,
 
         pendingComponents: state.pendingComponents
-          .concat([action.payload.ssrId]),
+          .concat([action.payload.isomorphicId]),
 
         componentsParams: {
           ...state.componentsParams,
-          [action.payload.ssrId]: componentReducer(
-            state.componentsParams[action.payload.ssrId],
+          [action.payload.isomorphicId]: componentReducer(
+            state.componentsParams[action.payload.isomorphicId],
             action,
           ),
         },
@@ -78,7 +78,7 @@ export default function reactReduxSSR(state = initialState, action) {
     case LOAD_CONTEXT_SUCCESS:
       {
         const isComponentRegistered = state.pendingComponents
-          .includes(action.payload.ssrId);
+          .includes(action.payload.isomorphicId);
 
         if (!isComponentRegistered) {
           return state;
@@ -89,12 +89,12 @@ export default function reactReduxSSR(state = initialState, action) {
         ...state,
 
         pendingComponents: state.pendingComponents
-          .filter(pendingSSRId => pendingSSRId !== action.payload.ssrId),
+          .filter(pendingIsomorphicId => pendingIsomorphicId !== action.payload.isomorphicId),
 
         componentsParams: {
           ...state.componentsParams,
-          [action.payload.ssrId]: componentReducer(
-            state.componentsParams[action.payload.ssrId],
+          [action.payload.isomorphicId]: componentReducer(
+            state.componentsParams[action.payload.isomorphicId],
             action,
           ),
         },
@@ -103,7 +103,7 @@ export default function reactReduxSSR(state = initialState, action) {
     case LOAD_CONTEXT_ERROR:
       {
         const isComponentRegistered = state.pendingComponents
-          .includes(action.payload.ssrId);
+          .includes(action.payload.isomorphicId);
 
         if (!isComponentRegistered) {
           return state;
@@ -114,12 +114,12 @@ export default function reactReduxSSR(state = initialState, action) {
         ...state,
 
         pendingComponents: state.pendingComponents
-          .filter(pendingSSRId => pendingSSRId !== action.payload.ssrId),
+          .filter(pendingIsomorphicId => pendingIsomorphicId !== action.payload.isomorphicId),
 
         componentsParams: {
           ...state.componentsParams,
-          [action.payload.ssrId]: componentReducer(
-            state.componentsParams[action.payload.ssrId],
+          [action.payload.isomorphicId]: componentReducer(
+            state.componentsParams[action.payload.isomorphicId],
             action,
           ),
         },
@@ -127,20 +127,20 @@ export default function reactReduxSSR(state = initialState, action) {
 
     case DESTROY:
       invariant(
-        state.componentsParams[action.payload.ssrId],
-        `Components with ssrId "${action.payload.ssrId}" is not registered`,
+        state.componentsParams[action.payload.isomorphicId],
+        `Components with isomorphicId "${action.payload.isomorphicId}" is not registered`,
       );
 
       return {
         ...state,
 
         pendingComponents: state.pendingComponents
-          .filter(pendingSSRId => pendingSSRId !== action.payload.ssrId),
+          .filter(pendingIsomorphicId => pendingIsomorphicId !== action.payload.isomorphicId),
 
         componentsParams: {
           ...state.componentsParams,
-          [action.payload.ssrId]: componentReducer(
-            state.componentsParams[action.payload.ssrId],
+          [action.payload.isomorphicId]: componentReducer(
+            state.componentsParams[action.payload.isomorphicId],
             action,
           ),
         },

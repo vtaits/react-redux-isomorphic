@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import invariant from 'invariant';
 
-import SSRWrapper from './SSRWrapper';
+import IsomorphicWrapper from './IsomorphicWrapper';
 import * as actions from './actions';
 
 import { componentInitialState } from './reducer';
 
-export default function ssrDecorator({
-  ssrId,
+export default function isomorphic({
+  isomorphicId,
   getContext,
 }) {
   invariant(
@@ -17,21 +17,21 @@ export default function ssrDecorator({
 
   return (component) => {
     const mapStateToProps = ({
-      reactReduxSSR,
+      reactReduxIsomorphic,
     }, componentProps) => {
-      const currentSSRId = ssrId || componentProps.ssrId;
+      const currentIsomorphicId = isomorphicId || componentProps.isomorphicId;
 
       invariant(
-        currentSSRId,
-        'ssrId is required in ssr decorated component props or decorator params',
+        currentIsomorphicId,
+        'isomorphicId is required in isomorphic decorated component props or decorator params',
       );
 
       return {
         component,
         componentProps,
 
-        ssrId: currentSSRId,
-        ssr: reactReduxSSR.componentsParams[currentSSRId] ||
+        isomorphicId: currentIsomorphicId,
+        isomorphic: reactReduxIsomorphic.componentsParams[currentIsomorphicId] ||
           componentInitialState,
 
         getContext,
@@ -42,6 +42,6 @@ export default function ssrDecorator({
       ...actions,
     };
 
-    return connect(mapStateToProps, mapDispatchToProps)(SSRWrapper);
+    return connect(mapStateToProps, mapDispatchToProps)(IsomorphicWrapper);
   };
 }

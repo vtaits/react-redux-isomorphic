@@ -2,20 +2,20 @@ import PropTypes from 'prop-types';
 import checkPropTypes from 'check-prop-types';
 
 import {
-  ssrIdPropTypes,
-  ssrPropTypes,
+  isomorphicIdPropTypes,
+  isomorphicPropTypes,
 } from '../propTypes';
 
 import { componentInitialState } from '../reducer';
 
-describe('ssrIdPropTypes', () => {
-  test('should accept number as ssrId', () => {
+describe('isomorphicIdPropTypes', () => {
+  test('should accept number as isomorphicId', () => {
     expect(checkPropTypes(
       {
-        ssrId: ssrIdPropTypes,
+        isomorphicId: isomorphicIdPropTypes,
       },
       {
-        ssrId: 1,
+        isomorphicId: 1,
       },
       'prop',
       'TestComponentName',
@@ -23,13 +23,13 @@ describe('ssrIdPropTypes', () => {
       .toBeFalsy();
   });
 
-  test('should accept string as ssrId', () => {
+  test('should accept string as isomorphicId', () => {
     expect(checkPropTypes(
       {
-        ssrId: ssrIdPropTypes,
+        isomorphicId: isomorphicIdPropTypes,
       },
       {
-        ssrId: '1',
+        isomorphicId: '1',
       },
       'prop',
       'TestComponentName',
@@ -38,14 +38,14 @@ describe('ssrIdPropTypes', () => {
   });
 });
 
-describe('ssrPropTypes', () => {
+describe('isomorphicPropTypes', () => {
   test('should accept componentInitialState', () => {
     expect(checkPropTypes(
       {
-        ssr: ssrPropTypes({}),
+        isomorphic: isomorphicPropTypes({}),
       },
       {
-        ssr: componentInitialState,
+        isomorphic: componentInitialState,
       },
       'prop',
       'TestComponentName',
@@ -56,7 +56,7 @@ describe('ssrPropTypes', () => {
   test('should accept custom context', () => {
     expect(checkPropTypes(
       {
-        ssr: ssrPropTypes({
+        isomorphic: isomorphicPropTypes({
           context: PropTypes.shape({
             id: PropTypes.number.isRequired,
             name: PropTypes.string.isRequired,
@@ -67,7 +67,7 @@ describe('ssrPropTypes', () => {
         }),
       },
       {
-        ssr: {
+        isomorphic: {
           ...componentInitialState,
           context: {
             id: 1,
@@ -87,7 +87,7 @@ describe('ssrPropTypes', () => {
   test('should accept custom error', () => {
     expect(checkPropTypes(
       {
-        ssr: ssrPropTypes({
+        isomorphic: isomorphicPropTypes({
           error: PropTypes.shape({
             status: PropTypes.number.isRequired,
             message: PropTypes.string.isRequired,
@@ -95,7 +95,7 @@ describe('ssrPropTypes', () => {
         }),
       },
       {
-        ssr: {
+        isomorphic: {
           ...componentInitialState,
           error: {
             status: 500,

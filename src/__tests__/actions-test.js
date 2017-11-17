@@ -23,7 +23,7 @@ test('should create loadContext action', () => {
     .toEqual({
       type: LOAD_CONTEXT,
       payload: {
-        ssrId: 1,
+        isomorphicId: 1,
       },
     });
 });
@@ -41,7 +41,7 @@ test('should create loadContextSuccess action', () => {
     .toEqual({
       type: LOAD_CONTEXT_SUCCESS,
       payload: {
-        ssrId: 1,
+        isomorphicId: 1,
         context: {
           test: 'value',
         },
@@ -62,7 +62,7 @@ test('should create loadContextError action', () => {
     .toEqual({
       type: LOAD_CONTEXT_ERROR,
       payload: {
-        ssrId: 1,
+        isomorphicId: 1,
         error: {
           test: 'value',
         },
@@ -81,7 +81,7 @@ test('should create destroy action', () => {
     .toEqual({
       type: DESTROY,
       payload: {
-        ssrId: 1,
+        isomorphicId: 1,
       },
     });
 });

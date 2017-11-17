@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 
-export const ssrIdPropTypes = PropTypes.oneOfType([
+export const isomorphicIdPropTypes = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number,
 ]);
 
-export const ssrPropTypes = ({
+export const isomorphicPropTypes = ({
   context = PropTypes.any,
   error = PropTypes.any,
 }) => PropTypes.shape({

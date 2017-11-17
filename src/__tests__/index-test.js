@@ -1,19 +1,19 @@
 import * as indexExports from '../index';
 
 import {
-  ssrIdPropTypes,
-  ssrPropTypes,
+  isomorphicIdPropTypes,
+  isomorphicPropTypes,
 } from '../propTypes';
 import reducer from '../reducer';
-import ssrDecorator from '../ssrDecorator';
-import SSRProvider from '../SSRProvider';
+import isomorphic from '../isomorphic';
+import IsomorphicProvider from '../IsomorphicProvider';
 import waitForContext from '../waitForContext';
 
 test('should export needed modules', () => {
-  expect(indexExports.ssrIdPropTypes).toBe(ssrIdPropTypes);
-  expect(indexExports.ssrPropTypes).toBe(ssrPropTypes);
+  expect(indexExports.isomorphicIdPropTypes).toBe(isomorphicIdPropTypes);
+  expect(indexExports.isomorphicPropTypes).toBe(isomorphicPropTypes);
   expect(indexExports.reducer).toBe(reducer);
-  expect(indexExports.ssrDecorator).toBe(ssrDecorator);
-  expect(indexExports.SSRProvider).toBe(SSRProvider);
+  expect(indexExports.isomorphic).toBe(isomorphic);
+  expect(indexExports.IsomorphicProvider).toBe(IsomorphicProvider);
   expect(indexExports.waitForContext).toBe(waitForContext);
 });
