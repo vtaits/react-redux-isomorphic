@@ -68,8 +68,8 @@ module.exports = function(env) {
   }
 
   const filename = isProd ?
-    './react-redux-ssr.min.js' :
-    './react-redux-ssr.js'
+    './react-redux-isomorphic.min.js' :
+    './react-redux-isomorphic.js'
 
   return {
     context,
@@ -83,7 +83,7 @@ module.exports = function(env) {
     output: {
       path: path.join(__dirname, 'dist'),
       filename,
-      library: 'ReactReduxSSR',
+      library: 'ReactReduxIsomorphic',
       libraryTarget: 'umd',
     },
     plugins,
