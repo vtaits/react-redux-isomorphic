@@ -30,8 +30,11 @@ export default function ssrDecorator({
         component,
         componentProps,
 
+        ssrId: currentSSRId,
         ssr: reactReduxSSR.componentsParams[currentSSRId] ||
           componentInitialState,
+
+        getContext,
       };
     };
 

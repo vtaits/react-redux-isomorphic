@@ -1,4 +1,4 @@
-import { createElement, Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { reactReduxSSRContextTypes } from './contextTypes';
@@ -27,7 +27,7 @@ class SSRProvider extends Component {
   }
 
   render() {
-    return createElement(this.props.children);
+    return this.props.children;
   }
 }
 
