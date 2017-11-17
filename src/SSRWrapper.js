@@ -30,7 +30,7 @@ class SSRWrapper extends Component {
     super(props);
 
     if (!props.ssr.isReady) {
-      props.loadContext();
+      props.loadContext(props.ssrId);
     }
   }
 
@@ -64,7 +64,7 @@ class SSRWrapper extends Component {
 
       loadContextSuccess(ssrId, context);
     } catch (error) {
-      loadContextError(ssrId, loadContextError);
+      loadContextError(ssrId, error);
     }
   }
 
