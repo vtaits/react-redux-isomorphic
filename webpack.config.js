@@ -24,6 +24,13 @@ const reactReduxExternal = {
   amd: 'react-redux',
 }
 
+const propTypesExternal = {
+  root: 'PropTypes',
+  commonjs2: 'prop-types',
+  commonjs: 'prop-types',
+  amd: 'prop-types',
+}
+
 module.exports = function(env) {
   const nodeEnv = process.env.NODE_ENV
   const isProd = nodeEnv === 'production'
@@ -68,6 +75,7 @@ module.exports = function(env) {
     context,
     entry: './index.js',
     externals: {
+      'prop-types': propTypesExternal,
       react: reactExternal,
       redux: reduxExternal,
       'react-redux': reactReduxExternal,
