@@ -1,7 +1,7 @@
 {
   "name": "react-redux-isomorphic",
   "version": "0.1.0",
-  "description": "A Higher Order Component using react-redux for creating lists with filters, sotring, paginatinon, endless scroll etc.",
+  "description": "Set of utilities for creating isomorphic applications using react-redux",
   "main": "./dist/react-redux-isomorphic.js",
   "scripts": {
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
