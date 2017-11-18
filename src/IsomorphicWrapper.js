@@ -34,7 +34,7 @@ class IsomorphicWrapper extends Component {
     }
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     const {
       componentProps,
 
