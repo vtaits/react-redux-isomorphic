@@ -462,3 +462,18 @@ import { waitForContext } from 'react-redux-isomorphic';
 ```
 await waitForContext(store);
 ```
+
+## Injector
+
+```
+import { Injector } from 'react-redux-isomorphic';
+```
+
+Добавляет компоненту prop `loadParams`, который был передан в `IsomorphicProvider`.
+
+```
+<Injector
+  component={AmazingComponent}
+  amazingProp="amazingValue"
+/>
+```
