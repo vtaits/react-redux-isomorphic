@@ -323,6 +323,8 @@ const componentForRender = (
 ```
 // component.jsx
 
+import { isomorphic, LoadContextError } from 'react-redux-isomorphic';
+
 ...
 
 export default isomorphic({
@@ -356,7 +358,7 @@ export default isomorphic({
         break;
     }
 
-    return Promise.reject(responseJSON);
+    throw new LoadContextError(responseJSON);
   },
 })(AmazingComponent);
 ```
@@ -415,7 +417,19 @@ export default isomorphic({
 - *isReady* (boolean) - загружены ли данные для компонента;
 - *isLoading* (boolean) - находится ли компонент в состоянии загрузки;
 - *context* (any) - результат успешного выполнения функции `getContext`;
-- *error* (any) - результат выполнения функции `getContext` с ошибкой.
+- *error* (any) - результат выполнения функции `getContext` с ошибкой `LoadContextError`.
+
+### LoadContextError
+
+Ошибка загрузки данных для компонента.
+
+```
+import { LoadContextError } from 'react-redux-isomorphic';
+
+...
+
+throw new LoadContextError(error);
+```
 
 ### isomorphicPropTypes
 
