@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { reactReduxIsomorphicContextTypes } from './contextTypes';
 import { isomorphicIdPropTypes, isomorphicPropTypes } from './propTypes';
 
+import { LoadContextError } from './errors';
+
 class IsomorphicWrapper extends Component {
   static contextTypes = {
     reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
@@ -59,12 +61,23 @@ class IsomorphicWrapper extends Component {
       return;
     }
 
+    let error;
     try {
       const context = await getContext(loadParams, componentProps);
 
       loadContextSuccess(isomorphicId, context);
-    } catch (error) {
-      loadContextError(isomorphicId, error);
+    } catch (catchedError) {
+      error = catchedError;
+    }
+
+    if (!error) {
+      return;
+    }
+
+    if (error instanceof LoadContextError) {
+      loadContextError(isomorphicId, error.error);
+    } else {
+      throw error;
     }
   }
 

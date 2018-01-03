@@ -7,3 +7,4 @@ export { default as Injector } from './Injector';
 export { default as isomorphic } from './isomorphic';
 export { default as IsomorphicProvider } from './IsomorphicProvider';
 export { default as waitForContext } from './waitForContext';
+export { LoadContextError } from './errors';

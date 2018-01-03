@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Grid } from 'react-bootstrap';
 
-import { isomorphic, isomorphicPropTypes } from 'react-redux-isomorphic';
+import { isomorphic, isomorphicPropTypes, LoadContextError } from 'react-redux-isomorphic';
 
 const UserPage = ({
   isomorphic: {
@@ -110,7 +110,7 @@ export default isomorphic({
     } else {
       setTitle(json.message);
 
-      return Promise.reject({
+      throw new LoadContextError({
         status,
         json,
       });

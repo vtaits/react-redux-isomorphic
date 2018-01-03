@@ -9,6 +9,7 @@ import Injector from '../Injector';
 import isomorphic from '../isomorphic';
 import IsomorphicProvider from '../IsomorphicProvider';
 import waitForContext from '../waitForContext';
+import { LoadContextError } from '../errors';
 
 test('should export needed modules', () => {
   expect(indexExports.isomorphicIdPropTypes).toBe(isomorphicIdPropTypes);
@@ -18,4 +19,5 @@ test('should export needed modules', () => {
   expect(indexExports.isomorphic).toBe(isomorphic);
   expect(indexExports.IsomorphicProvider).toBe(IsomorphicProvider);
   expect(indexExports.waitForContext).toBe(waitForContext);
+  expect(indexExports.LoadContextError).toBe(LoadContextError);
 });

@@ -5,6 +5,8 @@ import { isomorphicProps } from '../fixtures';
 
 import IsomorphicWrapper from '../IsomorphicWrapper';
 
+import { LoadContextError } from '../errors';
+
 const TestComponent = () => <div />;
 
 const defaultProps = {
@@ -153,7 +155,7 @@ test('should call getContext and loadContextError', done => {
           prop: 'value',
         });
 
-        return Promise.reject('testError');
+        throw new LoadContextError('testError');
       }}
       loadContextSuccess={() => {
         isLoadContextSuccessCalled = true;
@@ -177,7 +179,7 @@ test('should call getContext and loadContextError', done => {
   );
 });
 
-test('should not call getContext, loadContextSuccess and loadContextError  if ready', done => {
+test('should not call getContext, loadContextSuccess and loadContextError if ready', done => {
   let isGetContextCalled = false;
   let isLoadContextSuccessCalled = false;
   let isLoadContextErrorCalled = false;
