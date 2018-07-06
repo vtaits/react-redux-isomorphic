@@ -22,9 +22,6 @@ module.exports = {
             "node": {
                 "extensions": [".js"]
             },
-            "webpack": {
-                "config": "webpack.config.js"
-            }
         }
     },
     "rules": {

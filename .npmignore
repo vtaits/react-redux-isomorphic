@@ -5,4 +5,3 @@ src
 .eslintrc.js
 .gitignore
 setup-jest.js
-webpack.config.js
