@@ -7,10 +7,6 @@ import { isomorphicIdPropTypes, isomorphicPropTypes } from './propTypes';
 import { LoadContextError } from './errors';
 
 class IsomorphicWrapper extends Component {
-  static contextTypes = {
-    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
-  };
-
   static propTypes = {
     component: PropTypes.func.isRequired,
     componentProps: PropTypes.object.isRequired,
@@ -20,6 +16,7 @@ class IsomorphicWrapper extends Component {
     isomorphic: isomorphicPropTypes({}).isRequired,
 
     getContext: PropTypes.func.isRequired,
+    shouldReload: PropTypes.func,
 
     loadContext: PropTypes.func.isRequired,
     loadContextSuccess: PropTypes.func.isRequired,
@@ -28,15 +25,57 @@ class IsomorphicWrapper extends Component {
     destroy: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
+  static contextTypes = {
+    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
+  };
 
-    if (!props.isomorphic.isReady) {
-      props.loadContext(props.isomorphicId);
+
+  static defaultProps = {
+    shouldReload: null,
+  }
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.init();
+  }
+
+  async componentDidUpdate(oldProps) {
+    const {
+      shouldReload,
+    } = this.props;
+
+    if (
+      shouldReload &&
+      shouldReload(this.props.componentProps, oldProps.componentProps)
+    ) {
+      this.destroy();
+
+      await this.init();
     }
   }
 
-  async componentWillMount() {
+  componentWillUnmount() {
+    this.destroy();
+  }
+
+  init() {
+    const {
+      isomorphic: {
+        isReady,
+      },
+      isomorphicId,
+      loadContext,
+    } = this.props;
+
+    if (!isReady) {
+      loadContext(isomorphicId);
+    }
+
+    return this.requestContext();
+  }
+
+  async requestContext() {
     const {
       componentProps,
 
@@ -81,7 +120,7 @@ class IsomorphicWrapper extends Component {
     }
   }
 
-  componentWillUnmount() {
+  destroy() {
     const {
       isomorphicId,
       destroy,

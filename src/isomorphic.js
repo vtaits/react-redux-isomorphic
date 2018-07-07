@@ -9,11 +9,19 @@ import { componentInitialState } from './reducer';
 export default function isomorphic({
   isomorphicId,
   getContext,
+  shouldReload,
 }) {
   invariant(
     typeof getContext === 'function',
     'getContext should be a function',
   );
+
+  if (shouldReload) {
+    invariant(
+      typeof shouldReload === 'function',
+      'shouldReload should be a function',
+    );
+  }
 
   return (component) => {
     const mapStateToProps = ({
@@ -35,6 +43,7 @@ export default function isomorphic({
           componentInitialState,
 
         getContext,
+        shouldReload,
       };
     };
 

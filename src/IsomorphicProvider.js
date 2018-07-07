@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { reactReduxIsomorphicContextTypes } from './contextTypes';
 
 class IsomorphicProvider extends Component {
-  static childContextTypes = {
-    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
-  }
-
   static propTypes = {
     loadParams: PropTypes.object,
     children: PropTypes.node,
+  }
+
+  static childContextTypes = {
+    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
   }
 
   static defaultProps = {

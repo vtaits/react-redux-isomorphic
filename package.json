@@ -33,10 +33,10 @@
   },
   "homepage": "https://github.com/vtaits/react-redux-isomorphic#readme",
   "peerDependencies": {
+    "prop-types": "^15.6.0",
     "react": "^15.0.0 || ^16.0.0",
     "react-redux": "^4.3.0 || ^5.0.0",
-    "redux": "^3.0.0",
-    "prop-types": "^15.6.0"
+    "redux": "^3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -48,8 +48,8 @@
     "babel-preset-stage-2": "^6.24.1",
     "check-prop-types": "^1.1.1",
     "cross-env": "^5.1.1",
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",

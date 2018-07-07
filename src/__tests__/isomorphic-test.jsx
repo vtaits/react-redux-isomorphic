@@ -31,8 +31,25 @@ test('should throw error if getContext is not a function', () => {
   }).toThrow();
 });
 
+test('should throw error if shouldReload is defined and not a function', () => {
+  expect(() => {
+    isomorphic({
+      getContext: () => {},
+      shouldReload: 1,
+    });
+  }).toThrow();
+
+  expect(() => {
+    isomorphic({
+      getContext: () => { },
+      shouldReload: {},
+    });
+  }).toThrow();
+});
+
 test('should render IsomorphicWrapper by isomorphicId from decorator and default state', () => {
-  const getContext = () => {};
+  const getContext = () => { };
+  const shouldReload = () => {};
 
   const store = mockStore({
     reactReduxIsomorphic: {
@@ -44,6 +61,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and default
   const DecoratedComponent = isomorphic({
     isomorphicId: 'test',
     getContext,
+    shouldReload,
   })(TestComponent);
 
   const wrapper = mount(
@@ -65,6 +83,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and default
   expect(isomorphicWrapperNode.prop('isomorphicId')).toBe('test');
   expect(isomorphicWrapperNode.prop('isomorphic')).toEqual(componentInitialState);
   expect(isomorphicWrapperNode.prop('getContext')).toBe(getContext);
+  expect(isomorphicWrapperNode.prop('shouldReload')).toBe(shouldReload);
 
   expect(isomorphicWrapperNode.prop('loadContext')).toBeInstanceOf(Function);
   expect(isomorphicWrapperNode.prop('loadContextSuccess')).toBeInstanceOf(Function);
