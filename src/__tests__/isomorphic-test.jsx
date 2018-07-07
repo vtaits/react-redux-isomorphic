@@ -71,7 +71,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and default
           prop="value"
         />
       </Provider>
-    </IsomorphicProvider>
+    </IsomorphicProvider>,
   );
 
   const isomorphicWrapperNode = wrapper.find(IsomorphicWrapper);
@@ -113,7 +113,7 @@ test('should render IsomorphicWrapper by isomorphicId from props and default sta
           prop="value"
         />
       </Provider>
-    </IsomorphicProvider>
+    </IsomorphicProvider>,
   );
 
   const isomorphicWrapperNode = wrapper.find(IsomorphicWrapper);
@@ -163,7 +163,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and state f
           prop="value"
         />
       </Provider>
-    </IsomorphicProvider>
+    </IsomorphicProvider>,
   );
 
   const isomorphicWrapperNode = wrapper.find(IsomorphicWrapper);
@@ -218,7 +218,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and state f
           prop="value"
         />
       </Provider>
-    </IsomorphicProvider>
+    </IsomorphicProvider>,
   );
 
   const isomorphicWrapperNode = wrapper.find(IsomorphicWrapper);

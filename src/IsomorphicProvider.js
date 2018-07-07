@@ -19,15 +19,23 @@ class IsomorphicProvider extends Component {
   }
 
   getChildContext() {
+    const {
+      loadParams,
+    } = this.props;
+
     return {
       reactReduxIsomorphic: {
-        loadParams: this.props.loadParams,
+        loadParams,
       },
     };
   }
 
   render() {
-    return this.props.children;
+    const {
+      children,
+    } = this.props;
+
+    return children;
   }
 }
 

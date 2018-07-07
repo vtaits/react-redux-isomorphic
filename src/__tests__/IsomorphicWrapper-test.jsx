@@ -98,7 +98,7 @@ test('should render TestComponent with correct props', () => {
     />,
     {
       context: reactContext,
-    }
+    },
   );
 
   const testComponentNode = wrapper.find(TestComponent);
@@ -233,7 +233,7 @@ test('should call destroy on unmount', () => {
     />,
     {
       context: reactContext,
-    }
+    },
   );
 
   wrapper.unmount();

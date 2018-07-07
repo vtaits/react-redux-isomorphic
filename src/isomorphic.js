@@ -39,8 +39,8 @@ export default function isomorphic({
         componentProps,
 
         isomorphicId: currentIsomorphicId,
-        isomorphic: reactReduxIsomorphic.componentsParams[currentIsomorphicId] ||
-          componentInitialState,
+        isomorphic: reactReduxIsomorphic.componentsParams[currentIsomorphicId]
+          || componentInitialState,
 
         getContext,
         shouldReload,

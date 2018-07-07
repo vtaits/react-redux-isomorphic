@@ -7,10 +7,6 @@ module.exports = {
     "extends": ["eslint:recommended", "airbnb"],
     "parser": "babel-eslint",
     "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        },
         "sourceType": "module"
     },
     "plugins": [
@@ -20,12 +16,12 @@ module.exports = {
     "settings": {
         "import/resolver": {
             "node": {
-                "extensions": [".js"]
+                "extensions": [".js", ".jsx"]
             },
         }
     },
     "rules": {
-        "function-paren-newline": ["error", "consistent"],
+        "arrow-parens": ["error", "always"],
         "react/forbid-prop-types": "off",
         "no-plusplus": "off",
         "no-nested-ternary": "off",

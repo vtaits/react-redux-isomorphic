@@ -10,7 +10,7 @@ const createStore = (initialState) => {
 
       return () => {
         listeners = listeners
-          .filter(registeredListener => registeredListener !== listener);
+          .filter((registeredListener) => registeredListener !== listener);
       };
     },
 

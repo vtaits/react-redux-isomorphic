@@ -7,16 +7,20 @@ import { reactReduxIsomorphicContextTypes } from '../contextTypes';
 import IsomorphicProvider from '../IsomorphicProvider';
 
 class TestComponent extends Component {
-  static contextTypes = {
-    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
-  }
-
   static propTypes = {
     checkContext: PropTypes.func.isRequired,
   }
 
+  static contextTypes = {
+    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
+  }
+
   componentDidMount() {
-    this.props.checkContext(this.context);
+    const {
+      checkContext,
+    } = this.props;
+
+    checkContext(this.context);
   }
 
   render() {
@@ -26,39 +30,49 @@ class TestComponent extends Component {
   }
 }
 
-test('should provide default loadParams', done => {
+test('should provide default loadParams', (done) => {
   const wrapper = mount(
     <IsomorphicProvider>
       <TestComponent
         checkContext={(context) => {
-          expect(context.reactReduxIsomorphic.loadParams).toEqual({});
+          const {
+            reactReduxIsomorphic,
+          } = context;
+
+          expect(reactReduxIsomorphic.loadParams).toEqual({});
           done();
         }}
       />
-    </IsomorphicProvider>
+    </IsomorphicProvider>,
   );
 
   expect(wrapper.find(TestComponent).length).toEqual(1);
 });
 
-test('should provide loadParams from props', done => {
+test('should provide loadParams from props', (done) => {
   const fetch = () => Promise.resolve(123);
 
   const wrapper = mount(
-    <IsomorphicProvider loadParams={{
-      fetch,
-      isServerRender: true,
-    }}>
+    <IsomorphicProvider
+      loadParams={{
+        fetch,
+        isServerRender: true,
+      }}
+    >
       <TestComponent
         checkContext={(context) => {
-          expect(context.reactReduxIsomorphic.loadParams).toEqual({
+          const {
+            reactReduxIsomorphic,
+          } = context;
+
+          expect(reactReduxIsomorphic.loadParams).toEqual({
             fetch,
             isServerRender: true,
           });
           done();
         }}
       />
-    </IsomorphicProvider>
+    </IsomorphicProvider>,
   );
 
   expect(wrapper.find(TestComponent).length).toEqual(1);

@@ -43,11 +43,12 @@ class IsomorphicWrapper extends Component {
   async componentDidUpdate(oldProps) {
     const {
       shouldReload,
+      componentProps,
     } = this.props;
 
     if (
-      shouldReload &&
-      shouldReload(this.props.componentProps, oldProps.componentProps)
+      shouldReload
+      && shouldReload(componentProps, oldProps.componentProps)
     ) {
       this.destroy();
 

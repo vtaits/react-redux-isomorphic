@@ -89,7 +89,7 @@ export default function reactReduxIsomorphic(state = initialState, action) {
         ...state,
 
         pendingComponents: state.pendingComponents
-          .filter(pendingIsomorphicId => pendingIsomorphicId !== action.payload.isomorphicId),
+          .filter((pendingIsomorphicId) => pendingIsomorphicId !== action.payload.isomorphicId),
 
         componentsParams: {
           ...state.componentsParams,
@@ -114,7 +114,7 @@ export default function reactReduxIsomorphic(state = initialState, action) {
         ...state,
 
         pendingComponents: state.pendingComponents
-          .filter(pendingIsomorphicId => pendingIsomorphicId !== action.payload.isomorphicId),
+          .filter((pendingIsomorphicId) => pendingIsomorphicId !== action.payload.isomorphicId),
 
         componentsParams: {
           ...state.componentsParams,
@@ -135,7 +135,7 @@ export default function reactReduxIsomorphic(state = initialState, action) {
         ...state,
 
         pendingComponents: state.pendingComponents
-          .filter(pendingIsomorphicId => pendingIsomorphicId !== action.payload.isomorphicId),
+          .filter((pendingIsomorphicId) => pendingIsomorphicId !== action.payload.isomorphicId),
 
         componentsParams: {
           ...state.componentsParams,
