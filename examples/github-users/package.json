@@ -19,7 +19,7 @@
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
-    "react-redux-isomorphic": "file:../../",
+    "react-redux-isomorphic": "../../",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "url": "^0.11.0",
