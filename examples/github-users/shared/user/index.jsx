@@ -9,7 +9,7 @@ import { isomorphic, isomorphicPropTypes, LoadContextError } from 'react-redux-i
 const UserPage = ({
   isomorphic: {
     isReady,
-    context: user,
+    context,
     error,
   },
 }) => {
@@ -36,6 +36,11 @@ const UserPage = ({
       </Grid>
     );
   }
+
+  const {
+    user,
+    otherUsers,
+  } = context;
 
   return (
     <Grid>
@@ -74,6 +79,26 @@ const UserPage = ({
       <p>
         <Link to='/'>Back to users page</Link>
       </p>
+
+      {
+        otherUsers.length > 0 && (
+          <div>
+            <p>Other users:</p>
+
+            <ul>
+              {
+                otherUsers.map(({ id, login }) => (
+                  <li key={id}>
+                    <Link to={`/${login}/`}>
+                      {login}
+                    </Link>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        )
+      }
     </Grid>
   );
 }
@@ -81,13 +106,20 @@ const UserPage = ({
 UserPage.propTypes = {
   isomorphic: isomorphicPropTypes({
     context: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      login: PropTypes.string.isRequired,
-      name: PropTypes.string,
-      public_repos: PropTypes.number.isRequired,
-      public_gists: PropTypes.number.isRequired,
-      followers: PropTypes.number.isRequired,
-      following: PropTypes.number.isRequired,
+      user: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        login: PropTypes.string.isRequired,
+        name: PropTypes.string,
+        public_repos: PropTypes.number.isRequired,
+        public_gists: PropTypes.number.isRequired,
+        followers: PropTypes.number.isRequired,
+        following: PropTypes.number.isRequired,
+      }),
+
+      otherUsers: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        login: PropTypes.string.isRequired,
+      })),
     }),
   }),
 };
@@ -96,10 +128,22 @@ export default isomorphic({
   isomorphicId: 'userDetail',
 
   getContext: async ({ fetch, setTitle, setStatus }, { match }) => {
-    const githubResponse = await fetch(`/api/users/${match.params.userId}`);
+    const [
+      userResponse,
+      otherUsersResponse,
+    ] = await Promise.all([
+      await fetch(`/api/users/${match.params.userId}`),
+      await fetch(`/api/search/users?q=e`),
+    ]);
 
-    const status = githubResponse.status;
-    const json = await githubResponse.json();
+    const status = userResponse.status;
+    const json = await userResponse.json();
+
+    const otherUsersJson = await otherUsersResponse.json();
+
+    const otherUsers = otherUsersResponse.status < 400 ?
+      otherUsersJson.items.slice(0, 5) :
+      [];
 
     setStatus(status);
 
@@ -116,6 +160,12 @@ export default isomorphic({
       });
     }
 
-    return json;
+    return {
+      user: json,
+      otherUsers,
+    };
   },
+
+  shouldReload: (newProps, oldProps) =>
+    newProps.match.params.userId !== oldProps.match.params.userId,
 })(UserPage);
