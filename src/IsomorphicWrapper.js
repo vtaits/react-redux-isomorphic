@@ -50,7 +50,7 @@ class IsomorphicWrapper extends Component {
       shouldReload
       && shouldReload(componentProps, oldProps.componentProps)
     ) {
-      this.destroy();
+      await this.destroy();
 
       await this.init();
     }
