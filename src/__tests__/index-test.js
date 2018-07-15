@@ -5,6 +5,7 @@ import {
   isomorphicPropTypes,
 } from '../propTypes';
 import reducer from '../reducer';
+import inject from '../inject';
 import Injector from '../Injector';
 import isomorphic from '../isomorphic';
 import IsomorphicProvider from '../IsomorphicProvider';
@@ -15,6 +16,7 @@ test('should export needed modules', () => {
   expect(indexExports.isomorphicIdPropTypes).toBe(isomorphicIdPropTypes);
   expect(indexExports.isomorphicPropTypes).toBe(isomorphicPropTypes);
   expect(indexExports.reducer).toBe(reducer);
+  expect(indexExports.inject).toBe(inject);
   expect(indexExports.Injector).toBe(Injector);
   expect(indexExports.isomorphic).toBe(isomorphic);
   expect(indexExports.IsomorphicProvider).toBe(IsomorphicProvider);
