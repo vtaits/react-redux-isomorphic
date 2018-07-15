@@ -503,7 +503,7 @@ import { Injector } from 'react-redux-isomorphic';
 import { inject } from 'react-redux-isomorphic';
 ```
 
-Добавляет компоненту prop `loadParams`, который был передан в `IsomorphicProvider`.
+Компонент высшего порядка, добавляющий оригинальному компоненту prop `loadParams`, который был передан в `IsomorphicProvider`.
 
 ```
 const WithLoadParams = inject(AmazingComponent);
