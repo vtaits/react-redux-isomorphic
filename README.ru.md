@@ -496,3 +496,15 @@ import { Injector } from 'react-redux-isomorphic';
   amazingProp="amazingValue"
 />
 ```
+
+## inject
+
+```
+import { inject } from 'react-redux-isomorphic';
+```
+
+Добавляет компоненту prop `loadParams`, который был передан в `IsomorphicProvider`.
+
+```
+const WithLoadParams = inject(AmazingComponent);
+```
