@@ -1,16 +1,19 @@
 'use strict';
 
-require('babel-polyfill');
+require('@babel/polyfill');
 
 const path = require('path');
 const appModulePath = require('app-module-path');
 appModulePath.addPath(path.join(__dirname, 'shared'));
 
-require('babel-register')({
+require('@babel/register')({
   presets: [
-    'env',
-    'react',
-    'stage-2',
+    '@babel/env',
+    '@babel/react',
+  ],
+
+  plugins: [
+    '@babel/plugin-proposal-class-properties',
   ],
 });
 
