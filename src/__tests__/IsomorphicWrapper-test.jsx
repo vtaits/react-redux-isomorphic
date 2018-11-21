@@ -3,11 +3,16 @@ import { shallow } from 'enzyme';
 
 import { isomorphicProps } from '../fixtures';
 
-import IsomorphicWrapper from '../IsomorphicWrapper';
+import { ContextResolver } from '../IsomorphicWrapper';
 
 import { LoadContextError } from '../errors';
 
 const TestComponent = () => <div />;
+
+const defaultLoadParams = {
+  fetch: () => Promise.resolve(123),
+  isServerRender: true,
+};
 
 const defaultProps = {
   ...isomorphicProps,
@@ -19,6 +24,7 @@ const defaultProps = {
 
   isomorphicId: 'test',
 
+  loadParams: defaultLoadParams,
   getContext: () => {},
 
   loadContext: () => {},
@@ -28,16 +34,7 @@ const defaultProps = {
   destroy: () => {},
 };
 
-const reactContext = {
-  reactReduxIsomorphic: {
-    loadParams: {
-      fetch: () => Promise.resolve(123),
-      isServerRender: true,
-    },
-  },
-};
-
-class ManualIsomorphicWrapper extends IsomorphicWrapper {
+class ManualContextResolver extends ContextResolver {
   // eslint-disable-next-line class-methods-use-this
   init() {
     const {
@@ -63,14 +60,11 @@ class ManualIsomorphicWrapper extends IsomorphicWrapper {
 class PageObject {
   constructor(props, initFn) {
     this.wrapper = shallow(
-      <ManualIsomorphicWrapper
+      <ManualContextResolver
         {...defaultProps}
         {...props}
         initFn={initFn}
       />,
-      {
-        context: reactContext,
-      },
     );
   }
 
@@ -93,12 +87,9 @@ function setup(props, initFn) {
 
 test('should render TestComponent with correct props', () => {
   const wrapper = shallow(
-    <IsomorphicWrapper
+    <ContextResolver
       {...defaultProps}
     />,
-    {
-      context: reactContext,
-    },
   );
 
   const testComponentNode = wrapper.find(TestComponent);
@@ -160,7 +151,7 @@ test('should call getContext and loadContextSuccess', async () => {
   await page.manualInit();
 
   expect(callsSequence).toEqual([
-    ['getContext', reactContext.reactReduxIsomorphic.loadParams, {
+    ['getContext', defaultLoadParams, {
       prop: 'value',
     }],
     ['loadContextSuccess', 'test', 'testContext'],
@@ -189,7 +180,7 @@ test('should call getContext and loadContextError', async () => {
   await page.manualInit();
 
   expect(callsSequence).toEqual([
-    ['getContext', reactContext.reactReduxIsomorphic.loadParams, {
+    ['getContext', defaultLoadParams, {
       prop: 'value',
     }],
     ['loadContextError', 'test', 'testError'],
@@ -227,13 +218,10 @@ test('should call destroy on unmount', () => {
   const destroy = jest.fn();
 
   const wrapper = shallow(
-    <IsomorphicWrapper
+    <ContextResolver
       {...defaultProps}
       destroy={destroy}
     />,
-    {
-      context: reactContext,
-    },
   );
 
   wrapper.unmount();

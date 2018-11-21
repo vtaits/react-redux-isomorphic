@@ -1,34 +1,37 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+
+import IsomorphicProvider from '../IsomorphicProvider';
 
 import Injector from '../Injector';
 
-const reactContext = {
-  reactReduxIsomorphic: {
-    loadParams: {
-      fetch: () => Promise.resolve(123),
-      isServerRender: true,
-    },
-  },
+const defaultLoadParams = {
+  fetch: () => Promise.resolve(123),
+  isServerRender: true,
 };
 
 const TestComponent = () => <div />;
 
 test('should add loadParams to component props', () => {
-  const wrapper = shallow(
-    <Injector
-      component={TestComponent}
-      testProp="testValue"
-    />,
-    {
-      context: reactContext,
-    },
+  const wrapper = mount(
+    <IsomorphicProvider loadParams={defaultLoadParams}>
+      <Injector
+        component={TestComponent}
+        testProp="testValue"
+      >
+        {(loadParams) => (
+          <TestComponent
+            loadParams={loadParams}
+            testProp="testValue"
+          />
+        )}
+      </Injector>
+    </IsomorphicProvider>,
   );
 
   const testComponentNode = wrapper.find(TestComponent);
 
-  expect(testComponentNode.length).toEqual(1);
-  expect(testComponentNode.prop('testProp')).toEqual('testValue');
-  expect(testComponentNode.prop('loadParams'))
-    .toEqual(reactContext.reactReduxIsomorphic.loadParams);
+  expect(testComponentNode.length).toBe(1);
+  expect(testComponentNode.prop('testProp')).toBe('testValue');
+  expect(testComponentNode.prop('loadParams')).toBe(defaultLoadParams);
 });

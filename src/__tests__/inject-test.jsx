@@ -1,7 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
-import Injector from '../Injector';
+import IsomorphicProvider from '../IsomorphicProvider';
 
 import inject from '../inject';
 
@@ -9,14 +9,22 @@ test('should render injector with correct props', () => {
   const TestComponent = () => <div />;
   const WithLoadParams = inject(TestComponent);
 
-  const wrapper = shallow(
-    <WithLoadParams
-      testProp="testValue"
-    />,
+  const wrapper = mount(
+    <IsomorphicProvider
+      loadParams={{
+        testParam: 'testValue',
+      }}
+    >
+      <WithLoadParams
+        testProp="testValue"
+      />
+    </IsomorphicProvider>,
   );
 
-  const injectorNode = wrapper.find(Injector);
+  const testComponentNode = wrapper.find(TestComponent);
 
-  expect(injectorNode.prop('component')).toBe(TestComponent);
-  expect(injectorNode.prop('testProp')).toBe('testValue');
+  expect(testComponentNode.prop('testProp')).toBe('testValue');
+  expect(testComponentNode.prop('loadParams')).toEqual({
+    testParam: 'testValue',
+  });
 });

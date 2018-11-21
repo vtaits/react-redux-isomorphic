@@ -1,12 +1,12 @@
 import { createElement, Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { reactReduxIsomorphicContextTypes } from './contextTypes';
+import inject from './inject';
 import { isomorphicIdPropTypes, isomorphicPropTypes } from './propTypes';
 
 import { LoadContextError } from './errors';
 
-class IsomorphicWrapper extends Component {
+export class ContextResolver extends Component {
   static propTypes = {
     component: PropTypes.func.isRequired,
     componentProps: PropTypes.object.isRequired,
@@ -15,6 +15,7 @@ class IsomorphicWrapper extends Component {
 
     isomorphic: isomorphicPropTypes({}).isRequired,
 
+    loadParams: PropTypes.object.isRequired,
     getContext: PropTypes.func.isRequired,
     shouldReload: PropTypes.func,
 
@@ -25,17 +26,12 @@ class IsomorphicWrapper extends Component {
     destroy: PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
-  };
-
-
   static defaultProps = {
     shouldReload: null,
   }
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.init();
   }
@@ -85,17 +81,12 @@ class IsomorphicWrapper extends Component {
         isReady,
       },
 
+      loadParams,
       getContext,
 
       loadContextSuccess,
       loadContextError,
     } = this.props;
-
-    const {
-      reactReduxIsomorphic: {
-        loadParams,
-      },
-    } = this.context;
 
     if (isReady) {
       return;
@@ -144,5 +135,7 @@ class IsomorphicWrapper extends Component {
     });
   }
 }
+
+const IsomorphicWrapper = inject(ContextResolver);
 
 export default IsomorphicWrapper;

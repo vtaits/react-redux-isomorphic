@@ -2,30 +2,38 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
 
-import { reactReduxIsomorphicContextTypes } from '../contextTypes';
+import IsomorphicContext from '../context';
 
 import IsomorphicProvider from '../IsomorphicProvider';
 
 class TestComponent extends Component {
   static propTypes = {
-    checkContext: PropTypes.func.isRequired,
+    checkLoadParams: PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    reactReduxIsomorphic: reactReduxIsomorphicContextTypes.isRequired,
+  constructor(props) {
+    super(props);
+
+    this.renderContent = this.renderContent.bind(this);
   }
 
-  componentDidMount() {
+  renderContent(loadParams) {
     const {
-      checkContext,
+      checkLoadParams,
     } = this.props;
 
-    checkContext(this.context);
+    checkLoadParams(loadParams);
+
+    return (
+      <div />
+    );
   }
 
   render() {
     return (
-      <div />
+      <IsomorphicContext.Consumer>
+        {this.renderContent}
+      </IsomorphicContext.Consumer>
     );
   }
 }
@@ -34,12 +42,8 @@ test('should provide default loadParams', (done) => {
   const wrapper = mount(
     <IsomorphicProvider>
       <TestComponent
-        checkContext={(context) => {
-          const {
-            reactReduxIsomorphic,
-          } = context;
-
-          expect(reactReduxIsomorphic.loadParams).toEqual({});
+        checkLoadParams={(loadParams) => {
+          expect(loadParams).toEqual({});
           done();
         }}
       />
@@ -60,12 +64,8 @@ test('should provide loadParams from props', (done) => {
       }}
     >
       <TestComponent
-        checkContext={(context) => {
-          const {
-            reactReduxIsomorphic,
-          } = context;
-
-          expect(reactReduxIsomorphic.loadParams).toEqual({
+        checkLoadParams={(loadParams) => {
+          expect(loadParams).toEqual({
             fetch,
             isServerRender: true,
           });
