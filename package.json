@@ -1,6 +1,6 @@
 {
   "name": "react-redux-isomorphic",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Set of utilities for creating isomorphic applications using react-redux",
   "main": "./lib/index.js",
   "module": "./es/index.js",
