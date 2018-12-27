@@ -1,7 +1,5 @@
 'use strict';
 
-require('@babel/polyfill');
-
 const path = require('path');
 const appModulePath = require('app-module-path');
 appModulePath.addPath(path.join(__dirname, 'shared'));
@@ -13,6 +11,7 @@ require('@babel/register')({
   ],
 
   plugins: [
+    '@babel/plugin-transform-runtime',
     '@babel/plugin-proposal-class-properties',
   ],
 });
