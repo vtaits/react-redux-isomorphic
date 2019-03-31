@@ -12,7 +12,7 @@
     "test": "yarn lint && yarn test:unit",
     "test:unit": "cross-env BABEL_ENV=test jest",
     "test:unit:watch": "cross-env BABEL_ENV=test jest --watchAll",
-    "prepublish": "yarn build"
+    "prepare": "yarn build"
   },
   "repository": {
     "type": "git",
