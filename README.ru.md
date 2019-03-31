@@ -512,3 +512,19 @@ import { inject } from 'react-redux-isomorphic';
 ```
 const WithLoadParams = inject(AmazingComponent);
 ```
+
+### useLoadParams
+
+```
+import { useLoadParams } from 'react-redux-isomorphic';
+```
+
+Хук для получения `loadParams`.
+
+```
+const AmazingComponent = () => {
+  const loadParams = useLoadParams();
+
+  ...
+};
+```
