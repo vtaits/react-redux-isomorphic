@@ -4,6 +4,10 @@
   "description": "Set of utilities for creating isomorphic applications using react-redux",
   "main": "./lib/index.js",
   "module": "./es/index.js",
+  "files": [
+    "/es",
+    "/lib"
+  ],
   "scripts": {
     "build": "yarn build:lib && yarn build:es",
     "build:lib": "cross-env BABEL_ENV=cjs babel src --out-dir lib --ignore \"src/**/__tests__\"",

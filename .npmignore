@@ -1,8 +1,0 @@
-examples
-node_modules
-src
-.babelrc
-.eslintrc.js
-.gitignore
-setup-jest.js
-yarn.lock
