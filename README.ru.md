@@ -513,7 +513,41 @@ import { inject } from 'react-redux-isomorphic';
 const WithLoadParams = inject(AmazingComponent);
 ```
 
-### useLoadParams
+## useIsomorphic
+
+Экспертментальное апи. Альтернатива `isomorphic`.
+
+```
+import { useIsomorphic } from 'react-redux-isomorphic';
+
+const AmazingComponent = () => {
+  const {
+    isReady,
+    isLoading,
+    context,
+    error,
+  } = useIsomorphic('isomorphicId', async (loadParams) => {
+    ...
+  });
+
+  ...
+};
+```
+
+*Важно*
+
+При использовании на сервере обязательно компоненту `IsomorphicProvider` нужно добавить `isFakeHooks={true}`
+
+```
+<IsomorphicProvider
+  loadParams={loadParams}
+  isFakeHooks
+>
+  ...
+</IsomorphicProvider>
+```
+
+## useLoadParams
 
 ```
 import { useLoadParams } from 'react-redux-isomorphic';
