@@ -534,7 +534,7 @@ const AmazingComponent = () => {
 };
 ```
 
-*Важно*
+**Важно**
 
 При использовании на сервере обязательно компоненту `IsomorphicProvider` нужно добавить `isFakeHooks={true}`
 
