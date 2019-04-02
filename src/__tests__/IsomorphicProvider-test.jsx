@@ -11,13 +11,7 @@ class TestComponent extends Component {
     checkLoadParams: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-
-    this.renderContent = this.renderContent.bind(this);
-  }
-
-  renderContent(loadParams) {
+  renderContent = (loadParams) => {
     const {
       checkLoadParams,
     } = this.props;
@@ -42,7 +36,7 @@ test('should provide default loadParams', (done) => {
   const wrapper = mount(
     <IsomorphicProvider>
       <TestComponent
-        checkLoadParams={(loadParams) => {
+        checkLoadParams={({ loadParams }) => {
           expect(loadParams).toEqual({});
           done();
         }}
@@ -64,11 +58,43 @@ test('should provide loadParams from props', (done) => {
       }}
     >
       <TestComponent
-        checkLoadParams={(loadParams) => {
+        checkLoadParams={({ loadParams }) => {
           expect(loadParams).toEqual({
             fetch,
             isServerRender: true,
           });
+          done();
+        }}
+      />
+    </IsomorphicProvider>,
+  );
+
+  expect(wrapper.find(TestComponent).length).toEqual(1);
+});
+
+test('should provide default isFakeHooks', (done) => {
+  const wrapper = mount(
+    <IsomorphicProvider>
+      <TestComponent
+        checkLoadParams={({ isFakeHooks }) => {
+          expect(isFakeHooks).toBe(false);
+          done();
+        }}
+      />
+    </IsomorphicProvider>,
+  );
+
+  expect(wrapper.find(TestComponent).length).toEqual(1);
+});
+
+test('should provide isFakeHooks from props', (done) => {
+  const wrapper = mount(
+    <IsomorphicProvider
+      isFakeHooks
+    >
+      <TestComponent
+        checkLoadParams={({ isFakeHooks }) => {
+          expect(isFakeHooks).toBe(true);
           done();
         }}
       />

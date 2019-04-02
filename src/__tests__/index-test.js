@@ -9,6 +9,7 @@ import inject from '../inject';
 import Injector from '../Injector';
 import useLoadParams from '../useLoadParams';
 import isomorphic from '../isomorphic';
+import useIsomorphic from '../useIsomorphic';
 import IsomorphicProvider from '../IsomorphicProvider';
 import waitForContext from '../waitForContext';
 import { LoadContextError } from '../errors';
@@ -21,6 +22,7 @@ test('should export needed modules', () => {
   expect(indexExports.Injector).toBe(Injector);
   expect(indexExports.useLoadParams).toBe(useLoadParams);
   expect(indexExports.isomorphic).toBe(isomorphic);
+  expect(indexExports.useIsomorphic).toBe(useIsomorphic);
   expect(indexExports.IsomorphicProvider).toBe(IsomorphicProvider);
   expect(indexExports.waitForContext).toBe(waitForContext);
   expect(indexExports.LoadContextError).toBe(LoadContextError);

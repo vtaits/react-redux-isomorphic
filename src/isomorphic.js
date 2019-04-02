@@ -4,7 +4,7 @@ import invariant from 'invariant';
 import IsomorphicWrapper from './IsomorphicWrapper';
 import * as actions from './actions';
 
-import { componentInitialState } from './reducer';
+import getComponentState from './getComponentState';
 
 export default function isomorphic({
   isomorphicId,
@@ -24,9 +24,7 @@ export default function isomorphic({
   }
 
   return (component) => {
-    const mapStateToProps = ({
-      reactReduxIsomorphic,
-    }, componentProps) => {
+    const mapStateToProps = (storeState, componentProps) => {
       const currentIsomorphicId = isomorphicId || componentProps.isomorphicId;
 
       invariant(
@@ -39,8 +37,7 @@ export default function isomorphic({
         componentProps,
 
         isomorphicId: currentIsomorphicId,
-        isomorphic: reactReduxIsomorphic.componentsParams[currentIsomorphicId]
-          || componentInitialState,
+        isomorphic: getComponentState(storeState, currentIsomorphicId),
 
         getContext,
         shouldReload,
