@@ -11,50 +11,61 @@ const UsersPage = ({
   isomorphic: {
     isReady,
     context,
+    error,
   },
-}) => (
-  <Grid>
-    <h1>Github users</h1>
+}) => {
+  if (error) {
+    return (
+      <Grid>
+        <h1>Error loading data</h1>
+      </Grid>
+    );
+  }
 
-    {
-      isReady ? (
-        <Table>
-          <thead>
-            <tr>
-              <th>
-                Login
-              </th>
+  return (
+    <Grid>
+      <h1>Github users</h1>
 
-              <th>
-                Score
-              </th>
-            </tr>
-          </thead>
+      {
+        isReady ? (
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  Login
+                </th>
 
-          <tbody>
-            {
-              context.items.map(({ id, login, score }) => (
-                <tr key={id}>
-                  <td>
-                    <Link to={`/${login}/`}>
-                      {login}
-                    </Link>
-                  </td>
+                <th>
+                  Score
+                </th>
+              </tr>
+            </thead>
 
-                  <td>
-                    {score}
-                  </td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </Table>
-      ) : (
-        <h2>Loading ...</h2>
-      )
-    }
-  </Grid>
-);
+            <tbody>
+              {
+                context.items.map(({ id, login, score }) => (
+                  <tr key={id}>
+                    <td>
+                      <Link to={`/${login}/`}>
+                        {login}
+                      </Link>
+                    </td>
+
+                    <td>
+                      {score}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </Table>
+        ) : (
+          <h2>Loading ...</h2>
+        )
+      }
+    </Grid>
+  );
+};
 
 UsersPage.propTypes = {
   isomorphic: isomorphicPropTypes({
