@@ -1,0 +1,57 @@
+{
+  "name": "react-redux-isomorphic",
+  "version": "0.3.3",
+  "description": "Set of utilities for creating isomorphic applications using react-redux",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "files": [
+    "/es",
+    "/lib"
+  ],
+  "scripts": {
+    "build": "yarn build:lib && yarn build:es",
+    "build:lib": "cross-env BABEL_ENV=cjs babel src --out-dir lib --ignore \"src/**/__tests__\"",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore \"src/**/__tests__\"",
+    "prepare": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vtaits/react-redux-isomorphic.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "redux",
+    "ssr",
+    "isomorphic",
+    "react-redux-isomorphic",
+    "decorator",
+    "context"
+  ],
+  "author": "Vadim Taits",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vtaits/react-redux-isomorphic/issues"
+  },
+  "homepage": "https://github.com/vtaits/react-redux-isomorphic#readme",
+  "peerDependencies": {
+    "react": "^16.3.0",
+    "react-redux": "^4.3.0 || ^5.0.0 || ^6.0.0",
+    "redux": "^3.0.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "check-prop-types": "^1.1.2",
+    "flux-standard-action": "^2.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.1",
+    "redux-mock-store": "^1.5.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.4.5",
+    "es6-error": "^4.1.1",
+    "invariant": "^2.2.4",
+    "prop-types": "^15.7.2"
+  }
+}

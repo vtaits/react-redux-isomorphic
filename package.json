@@ -1,48 +1,22 @@
 {
-  "name": "react-redux-isomorphic",
-  "version": "0.3.3",
-  "description": "Set of utilities for creating isomorphic applications using react-redux",
-  "main": "./lib/index.js",
-  "module": "./es/index.js",
-  "files": [
-    "/es",
-    "/lib"
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "examples/*"
   ],
   "scripts": {
-    "build": "yarn build:lib && yarn build:es",
-    "build:lib": "cross-env BABEL_ENV=cjs babel src --out-dir lib --ignore \"src/**/__tests__\"",
-    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore \"src/**/__tests__\"",
-    "lint": "eslint src --ext .js,.jsx",
+    "build": "yarn workspace react-redux-isomorphic build",
+    "lint": "eslint packages --ext .js,.jsx --ignore-path .gitignore",
     "test": "yarn lint && yarn test:unit",
     "test:unit": "cross-env BABEL_ENV=test jest",
-    "test:unit:watch": "cross-env BABEL_ENV=test jest --watchAll",
-    "prepare": "yarn build"
+    "test:unit:watch": "cross-env BABEL_ENV=test jest --watchAll"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vtaits/react-redux-isomorphic.git"
-  },
-  "keywords": [
-    "react",
-    "reactjs",
-    "redux",
-    "ssr",
-    "isomorphic",
-    "react-redux-isomorphic",
-    "decorator",
-    "context"
-  ],
   "author": "Vadim Taits",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/vtaits/react-redux-isomorphic/issues"
   },
   "homepage": "https://github.com/vtaits/react-redux-isomorphic#readme",
-  "peerDependencies": {
-    "react": "^16.3.0",
-    "react-redux": "^4.3.0 || ^5.0.0 || ^6.0.0",
-    "redux": "^3.0.0 || ^4.0.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
@@ -50,28 +24,22 @@
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
-    "check-prop-types": "^1.1.2",
     "cross-env": "^5.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jest": "^22.6.4",
+    "eslint-plugin-jest": "^22.7.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.13.0",
-    "flux-standard-action": "^2.1.0",
     "jest": "^24.8.0",
     "path": "^0.12.7",
     "raf": "^3.4.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.0.3",
-    "react-test-renderer": "^16.8.6",
-    "redux": "^4.0.1",
-    "redux-mock-store": "^1.5.3"
+    "react-dom": "^16.8.6"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -81,11 +49,5 @@
     "setupFiles": [
       "./setup-jest.js"
     ]
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.4.5",
-    "es6-error": "^4.1.1",
-    "invariant": "^2.2.4",
-    "prop-types": "^15.7.2"
   }
 }

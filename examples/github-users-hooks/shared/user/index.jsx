@@ -23,17 +23,17 @@ const UserPage = ({
       otherUsersResponse,
     ] = await Promise.all([
       await fetch(`/api/users/${userId}`),
-      await fetch(`/api/search/users?q=e`),
+      await fetch('/api/search/users?q=e'),
     ]);
 
-    const status = userResponse.status;
+    const { status } = userResponse;
     const json = await userResponse.json();
 
     const otherUsersJson = await otherUsersResponse.json();
 
-    const otherUsers = otherUsersResponse.status < 400 ?
-      otherUsersJson.items.slice(0, 5) :
-      [];
+    const otherUsers = otherUsersResponse.status < 400
+      ? otherUsersJson.items.slice(0, 5)
+      : [];
 
     setStatus(status);
 
@@ -62,7 +62,9 @@ const UserPage = ({
         <h1>User not found</h1>
 
         <p>
-          <Link to='/'>Back to users page</Link>
+          <Link to='/'>
+            Back to users page
+          </Link>
         </p>
       </Grid>
     );
@@ -74,7 +76,9 @@ const UserPage = ({
         <h2>Loading...</h2>
 
         <p>
-          <Link to='/'>Back to users page</Link>
+          <Link to='/'>
+            Back to users page
+          </Link>
         </p>
       </Grid>
     );
@@ -91,31 +95,51 @@ const UserPage = ({
 
       {
         user.name && (
-          <p>Name: {user.name}</p>
+          <p>
+            Name:
+            {' '}
+            {user.name}
+          </p>
         )
       }
 
       {
         user.public_repos && (
-          <p>Public repos: {user.public_repos}</p>
+          <p>
+            Public repos:
+            {' '}
+            {user.public_repos}
+          </p>
         )
       }
 
       {
         user.public_gists && (
-          <p>Public gists: {user.public_gists}</p>
+          <p>
+            Public gists:
+            {' '}
+            {user.public_gists}
+          </p>
         )
       }
 
       {
         user.followers && (
-          <p>Followers: {user.followers}</p>
+          <p>
+            Followers:
+            {' '}
+            {user.followers}
+          </p>
         )
       }
 
       {
         user.following && (
-          <p>Following: {user.following}</p>
+          <p>
+            Following:
+            {' '}
+            {user.following}
+          </p>
         )
       }
 
@@ -144,7 +168,7 @@ const UserPage = ({
       }
     </Grid>
   );
-}
+};
 
 UserPage.propTypes = {
   match: PropTypes.shape({

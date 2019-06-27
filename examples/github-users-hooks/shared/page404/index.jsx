@@ -1,15 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { isomorphic } from 'react-redux-isomorphic';
+const Page404 = () => (
+  <div>
+    404
+  </div>
+);
 
-class UserPage extends Component {
-  render() {
-    return (
-      <div>
-        404
-      </div>
-    );
-  }
-}
-
-export default UserPage;
+export default Page404;

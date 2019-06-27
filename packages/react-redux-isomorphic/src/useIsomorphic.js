@@ -4,7 +4,7 @@
  */
 
 import { useContext, useEffect } from 'react';
-import { ReactReduxContext } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import IsomorphicContext from './context';
 import getComponentState from './getComponentState';
@@ -23,16 +23,13 @@ const useEffectFake = (handler) => {
 };
 
 const useIsomorphic = (isomorphicId, getContext) => {
-  const {
-    store,
-    storeState,
-  } = useContext(ReactReduxContext);
+  const componentState = useSelector((storeState) => getComponentState(storeState, isomorphicId));
+  const dispatch = useDispatch();
+
   const {
     loadParams,
     isFakeHooks,
   } = useContext(IsomorphicContext);
-
-  const componentState = getComponentState(storeState, isomorphicId);
 
   const useEffectIsomorphic = isFakeHooks
     ? useEffectFake
@@ -43,7 +40,7 @@ const useIsomorphic = (isomorphicId, getContext) => {
       !componentState.isLoading
       && !componentState.isReady
     ) {
-      store.dispatch(loadContext(isomorphicId));
+      dispatch(loadContext(isomorphicId));
 
       const requestContext = async () => {
         let context;
@@ -55,12 +52,12 @@ const useIsomorphic = (isomorphicId, getContext) => {
         }
 
         if (!error) {
-          store.dispatch(loadContextSuccess(isomorphicId, context));
+          dispatch(loadContextSuccess(isomorphicId, context));
           return;
         }
 
         if (error instanceof LoadContextError) {
-          store.dispatch(loadContextError(isomorphicId, error.error));
+          dispatch(loadContextError(isomorphicId, error.error));
           return;
         }
 
@@ -71,7 +68,7 @@ const useIsomorphic = (isomorphicId, getContext) => {
     }
 
     return () => {
-      store.dispatch(destroy(isomorphicId));
+      dispatch(destroy(isomorphicId));
     };
   }, [isomorphicId]);
 

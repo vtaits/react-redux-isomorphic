@@ -18,6 +18,9 @@ module.exports = function() {
         exclude: /node_modules/,
         use: [{
           loader: 'babel-loader',
+          options: {
+            root: path.join(__dirname, '../..'),
+          },
         }],
       }],
     },

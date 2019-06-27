@@ -9,12 +9,12 @@ import { useIsomorphic, LoadContextError } from 'react-redux-isomorphic';
 const UsersPage = () => {
   const {
     isReady,
-    context,
+    context: isomorphicContext,
     error,
   } = useIsomorphic('usersList', async ({ fetch, setTitle }) => {
-    const githubResponse = await fetch(`/api/search/users?q=e`);
+    const githubResponse = await fetch('/api/search/users?q=e');
 
-    const status = githubResponse.status;
+    const { status } = githubResponse.status;
     const json = await githubResponse.json();
 
     if (status < 400) {
@@ -60,7 +60,7 @@ const UsersPage = () => {
 
             <tbody>
               {
-                context.items.map(({ id, login, score }) => (
+                isomorphicContext.items.map(({ id, login, score }) => (
                   <tr key={id}>
                     <td>
                       <Link to={`/${login}/`}>
