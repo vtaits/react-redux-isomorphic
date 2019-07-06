@@ -19,6 +19,23 @@ module.exports = {
       ],
     },
 
+    dev: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            modules: false,
+
+            targets: {
+              firefox: '67',
+              chrome: '74',
+            },
+          },
+        ],
+        '@babel/preset-react',
+      ],
+    },
+
     test: {
       presets: [
         '@babel/preset-env',

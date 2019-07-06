@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
@@ -38,17 +40,68 @@ window.__PRELOADED_STATE__ = ${JSON.stringify(initialState).replace(/</g, '\\u00
 </html>`;
 }
 
-function fetchGithub(url) {
-  return fetch(url.replace(/^\/api\//, 'https://api.github.com/'));
-}
+const waitForUsers = new Promise((resolve, reject) => {
+  fs.readFile('./users.json', (err, data) => {
+    if (err) {
+      reject(err);
+    }
+
+    const response = JSON.parse(data);
+
+    resolve(response);
+  });
+});
+
+const fetchUsers = async (url) => {
+  const detailMatch = url.match(/\/api\/users\/(\d+)\//i);
+
+  if (detailMatch) {
+    const userIdRaw = detailMatch[1];
+    const userId = Number(userIdRaw);
+
+    const users = await waitForUsers;
+
+    const user = users.find(({ id }) => id === userId);
+
+    if (user) {
+      return {
+        json: () => user,
+        status: 200,
+      };
+    }
+
+    return {
+      status: 404,
+      json: () => ({
+        message: 'User not found',
+      }),
+    };
+  }
+
+  if (url.match(/\/api\/users\//i)) {
+    const users = await waitForUsers;
+
+    return {
+      json: () => users,
+      status: 200,
+    };
+  }
+
+  return {
+    status: 404,
+    json: () => ({
+      message: 'Incorrect url',
+    }),
+  };
+};
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 app.get('/api/*', async (req, res) => {
-  const githubResponse = await fetchGithub(req.url);
+  const usersResponse = await fetchUsers(req.url);
 
-  const { status } = githubResponse;
-  const json = await githubResponse.json();
+  const { status } = usersResponse;
+  const json = await usersResponse.json();
 
   res.status(status).send(json);
 });
@@ -70,7 +123,7 @@ app.get('*', async (req, res) => {
           setStatus: (statusForSet) => {
             status = statusForSet;
           },
-          fetch: requestUrl => fetchGithub(requestUrl),
+          fetch: (requestUrl) => fetchUsers(requestUrl),
         }}
         isFakeHooks
       >

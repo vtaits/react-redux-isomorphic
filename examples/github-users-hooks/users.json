@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "score": 100,
+    "login": "user1",
+    "name": "First User"
+  },
+
+  {
+    "id": 2,
+    "score": 150,
+    "login": "user2",
+    "name": "Second User"
+  }
+]

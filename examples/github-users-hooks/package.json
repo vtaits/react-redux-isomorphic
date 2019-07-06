@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Github users example for react-redux-isomorphic with react hooks",
   "scripts": {
-    "build": "BABEL_ENV=es webpack",
+    "build": "BABEL_ENV=dev webpack",
     "start": "yarn build && node index.js"
   },
   "license": "MIT",

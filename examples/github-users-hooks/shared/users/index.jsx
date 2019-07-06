@@ -12,10 +12,10 @@ const UsersPage = () => {
     context: isomorphicContext,
     error,
   } = useIsomorphic('usersList', async ({ fetch, setTitle }) => {
-    const githubResponse = await fetch('/api/search/users?q=e');
+    const usersResponse = await fetch('/api/users/');
 
-    const { status } = githubResponse.status;
-    const json = await githubResponse.json();
+    const { status } = usersResponse;
+    const json = await usersResponse.json();
 
     if (status < 400) {
       setTitle('Github users');
@@ -28,7 +28,9 @@ const UsersPage = () => {
       });
     }
 
-    return json;
+    return {
+      items: json,
+    };
   });
 
   if (error) {
@@ -63,7 +65,7 @@ const UsersPage = () => {
                 isomorphicContext.items.map(({ id, login, score }) => (
                   <tr key={id}>
                     <td>
-                      <Link to={`/${login}/`}>
+                      <Link to={`/${id}/`}>
                         {login}
                       </Link>
                     </td>

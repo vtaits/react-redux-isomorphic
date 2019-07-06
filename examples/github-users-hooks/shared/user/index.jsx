@@ -22,8 +22,8 @@ const UserPage = ({
       userResponse,
       otherUsersResponse,
     ] = await Promise.all([
-      await fetch(`/api/users/${userId}`),
-      await fetch('/api/search/users?q=e'),
+      await fetch(`/api/users/${userId}/`),
+      await fetch('/api/users/'),
     ]);
 
     const { status } = userResponse;
@@ -32,7 +32,7 @@ const UserPage = ({
     const otherUsersJson = await otherUsersResponse.json();
 
     const otherUsers = otherUsersResponse.status < 400
-      ? otherUsersJson.items.slice(0, 5)
+      ? otherUsersJson.slice(0, 5)
       : [];
 
     setStatus(status);
@@ -104,41 +104,11 @@ const UserPage = ({
       }
 
       {
-        user.public_repos && (
+        user.score && (
           <p>
-            Public repos:
+            Score:
             {' '}
-            {user.public_repos}
-          </p>
-        )
-      }
-
-      {
-        user.public_gists && (
-          <p>
-            Public gists:
-            {' '}
-            {user.public_gists}
-          </p>
-        )
-      }
-
-      {
-        user.followers && (
-          <p>
-            Followers:
-            {' '}
-            {user.followers}
-          </p>
-        )
-      }
-
-      {
-        user.following && (
-          <p>
-            Following:
-            {' '}
-            {user.following}
+            {user.score}
           </p>
         )
       }
@@ -156,7 +126,7 @@ const UserPage = ({
               {
                 otherUsers.map(({ id, login }) => (
                   <li key={id}>
-                    <Link to={`/${login}/`}>
+                    <Link to={`/${id}/`}>
                       {login}
                     </Link>
                   </li>
