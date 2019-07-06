@@ -515,7 +515,7 @@ const WithLoadParams = inject(AmazingComponent);
 
 ## useIsomorphic
 
-Экспертментальное апи. Альтернатива `isomorphic`.
+Альтернатива `isomorphic`.
 
 ```
 import { useIsomorphic } from 'react-redux-isomorphic';
