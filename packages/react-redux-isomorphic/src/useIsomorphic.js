@@ -1,9 +1,4 @@
-/**
- * Experimental feature
- * TO DO: add tests
- */
-
-import { useContext, useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import IsomorphicContext from './context';
@@ -29,11 +24,11 @@ const useIsomorphic = (isomorphicId, getContext) => {
   const {
     loadParams,
     isFakeHooks,
-  } = useContext(IsomorphicContext);
+  } = React.useContext(IsomorphicContext);
 
   const useEffectIsomorphic = isFakeHooks
     ? useEffectFake
-    : useEffect;
+    : React.useEffect;
 
   useEffectIsomorphic(() => {
     if (
