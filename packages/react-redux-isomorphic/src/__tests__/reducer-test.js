@@ -1,5 +1,6 @@
 import {
   loadContext,
+  reloadContext,
   loadContextSuccess,
   loadContextError,
   destroy,
@@ -162,4 +163,83 @@ test('should throw error on destroy action if component is not registered', () =
   expect(() => {
     reducer(undefined, destroy('test1'));
   }).toThrow();
+});
+
+test('should respond reloadContext action', () => {
+  let state = reducer(undefined, loadContext('test1'));
+
+  state = reducer(state, loadContextSuccess('test1', {
+    testProp1: 'value1',
+  }));
+
+  state = reducer(state, reloadContext('test1'));
+
+  expect(state.componentsParams).toEqual({
+    test1: {
+      ...componentInitialState,
+      context: {
+        testProp1: 'value1',
+      },
+      isReady: true,
+      isLoading: true,
+      isReloading: true,
+    },
+  });
+});
+
+test('should respond loadContextSuccess action after reload', () => {
+  let state = reducer(undefined, loadContext('test1'));
+
+  state = reducer(state, loadContextSuccess('test1', {
+    testProp1: 'value1',
+  }));
+
+  state = reducer(state, reloadContext('test1'));
+
+  state = reducer(state, loadContextSuccess('test1', {
+    testProp1: 'value2',
+  }));
+
+  expect(state.pendingComponents).toEqual([]);
+  expect(state.componentsParams).toEqual({
+    test1: {
+      ...componentInitialState,
+      isReady: true,
+      isLoading: false,
+      isReloading: false,
+      context: {
+        testProp1: 'value2',
+      },
+    },
+  });
+});
+
+test('should respond loadContextError action after reload', () => {
+  let state = reducer(undefined, loadContext('test1'));
+
+  state = reducer(state, loadContextSuccess('test1', {
+    testProp1: 'value1',
+  }));
+
+  state = reducer(state, reloadContext('test1'));
+
+  state = reducer(state, loadContextError('test1', {
+    testProp1: 'value2',
+  }));
+
+  expect(state.pendingComponents).toEqual([]);
+  expect(state.componentsParams).toEqual({
+    test1: {
+      ...componentInitialState,
+      isReady: true,
+      isLoading: false,
+      isReloading: false,
+      context: {
+        testProp1: 'value1',
+      },
+      error: {
+        testProp1: 'value2',
+      },
+    },
+  });
 });

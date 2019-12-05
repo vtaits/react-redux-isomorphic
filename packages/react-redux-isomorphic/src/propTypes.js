@@ -11,6 +11,7 @@ export const isomorphicPropTypes = ({
 }) => PropTypes.shape({
   isReady: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isReloading: PropTypes.bool.isRequired,
   context,
   error,
 });

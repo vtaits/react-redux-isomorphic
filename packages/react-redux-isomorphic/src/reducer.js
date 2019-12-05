@@ -2,6 +2,7 @@ import invariant from 'invariant';
 
 import {
   LOAD_CONTEXT,
+  RELOAD_CONTEXT,
   LOAD_CONTEXT_SUCCESS,
   LOAD_CONTEXT_ERROR,
 
@@ -16,6 +17,7 @@ export const initialState = {
 export const componentInitialState = {
   isReady: false,
   isLoading: false,
+  isReloading: false,
   context: null,
   error: null,
 };
@@ -28,11 +30,19 @@ export function componentReducer(state = componentInitialState, action) {
         isLoading: true,
       };
 
+    case RELOAD_CONTEXT:
+      return {
+        ...state,
+        isLoading: true,
+        isReloading: true,
+      };
+
     case LOAD_CONTEXT_SUCCESS:
       return {
         ...state,
         isReady: true,
         isLoading: false,
+        isReloading: false,
         context: action.payload.context,
       };
 
@@ -41,6 +51,7 @@ export function componentReducer(state = componentInitialState, action) {
         ...state,
         isReady: true,
         isLoading: false,
+        isReloading: false,
         error: action.payload.error,
       };
 
@@ -75,14 +86,26 @@ export default function reactReduxIsomorphic(state = initialState, action) {
         },
       };
 
-    case LOAD_CONTEXT_SUCCESS:
-      {
-        const isComponentRegistered = state.pendingComponents
-          .includes(action.payload.isomorphicId);
+    case RELOAD_CONTEXT:
+      if (!state.componentsParams[action.payload.isomorphicId]) {
+        return state;
+      }
 
-        if (!isComponentRegistered) {
-          return state;
-        }
+      return {
+        ...state,
+
+        componentsParams: {
+          ...state.componentsParams,
+          [action.payload.isomorphicId]: componentReducer(
+            state.componentsParams[action.payload.isomorphicId],
+            action,
+          ),
+        },
+      };
+
+    case LOAD_CONTEXT_SUCCESS:
+      if (!state.componentsParams[action.payload.isomorphicId]) {
+        return state;
       }
 
       return {
@@ -101,13 +124,8 @@ export default function reactReduxIsomorphic(state = initialState, action) {
       };
 
     case LOAD_CONTEXT_ERROR:
-      {
-        const isComponentRegistered = state.pendingComponents
-          .includes(action.payload.isomorphicId);
-
-        if (!isComponentRegistered) {
-          return state;
-        }
+      if (!state.componentsParams[action.payload.isomorphicId]) {
+        return state;
       }
 
       return {

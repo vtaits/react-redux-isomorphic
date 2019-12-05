@@ -2,6 +2,7 @@ import { isFSA } from 'flux-standard-action';
 
 import {
   LOAD_CONTEXT,
+  RELOAD_CONTEXT,
   LOAD_CONTEXT_SUCCESS,
   LOAD_CONTEXT_ERROR,
   DESTROY,
@@ -9,6 +10,7 @@ import {
 
 import {
   loadContext,
+  reloadContext,
   loadContextSuccess,
   loadContextError,
   destroy,
@@ -22,6 +24,20 @@ test('should create loadContext action', () => {
   expect(loadContext(1))
     .toEqual({
       type: LOAD_CONTEXT,
+      payload: {
+        isomorphicId: 1,
+      },
+    });
+});
+
+test('reloadContext action is FSA', () => {
+  expect(isFSA(reloadContext(1))).toBeTruthy();
+});
+
+test('should create reloadContext action', () => {
+  expect(reloadContext(1))
+    .toEqual({
+      type: RELOAD_CONTEXT,
       payload: {
         isomorphicId: 1,
       },

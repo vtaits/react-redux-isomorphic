@@ -526,6 +526,8 @@ const AmazingComponent = () => {
     isLoading,
     context,
     error,
+
+    reload,
   } = useIsomorphic('isomorphicId', async (loadParams) => {
     ...
   });

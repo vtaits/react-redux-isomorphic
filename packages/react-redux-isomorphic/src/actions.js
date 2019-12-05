@@ -1,5 +1,6 @@
 import {
   LOAD_CONTEXT,
+  RELOAD_CONTEXT,
   LOAD_CONTEXT_SUCCESS,
   LOAD_CONTEXT_ERROR,
 
@@ -9,6 +10,15 @@ import {
 export function loadContext(isomorphicId) {
   return {
     type: LOAD_CONTEXT,
+    payload: {
+      isomorphicId,
+    },
+  };
+}
+
+export function reloadContext(isomorphicId) {
+  return {
+    type: RELOAD_CONTEXT,
     payload: {
       isomorphicId,
     },

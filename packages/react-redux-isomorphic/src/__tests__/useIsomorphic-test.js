@@ -3,24 +3,13 @@ import * as reactRedux from 'react-redux';
 
 import {
   loadContext,
-  loadContextSuccess,
-  loadContextError,
-
+  reloadContext,
   destroy,
 } from '../actions';
-import { LoadContextError } from '../errors';
 
 import useIsomorphic from '../useIsomorphic';
 
-const waitForCalls = (mockFn, callsNumber) => new Promise((resolve) => {
-  const interval = setInterval(() => {
-    if (mockFn.mock.calls.length >= callsNumber) {
-      clearInterval(interval);
-
-      resolve();
-    }
-  }, 5);
-});
+import * as requestContextModule from '../requestContext';
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -34,26 +23,39 @@ const defaultUseContext = () => ({
 });
 
 const mock = ({
+  requestContext = Function.prototype,
   useContext = defaultUseContext,
   useEffect = Function.prototype,
-  useSelector = Function.prototype,
+  useCallback = Function.prototype,
+  componentState = null,
   dispatch = Function.prototype,
 }) => {
   jest.spyOn(React, 'useContext').mockImplementation(useContext);
-
   jest.spyOn(React, 'useEffect').mockImplementation(useEffect);
+  jest.spyOn(React, 'useCallback').mockImplementation(useCallback);
+
   jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch);
-  jest.spyOn(reactRedux, 'useSelector').mockImplementation(useSelector);
+  jest.spyOn(reactRedux, 'useSelector').mockImplementation(() => componentState);
+
+  jest.spyOn(requestContextModule, 'default').mockImplementation(requestContext);
 };
 
-test('should return response of useSelector', () => {
-  const componentState = Symbol('Component state');
+const defaultComponentState = {
+  isReady: false,
+  isLoading: false,
+  isReloading: false,
+  context: Symbol('Component state'),
+  error: null,
+};
+
+test('should return response of useComponentState', () => {
+  const componentState = defaultComponentState;
 
   mock({
-    useSelector: () => componentState,
+    componentState,
   });
 
-  expect(useIsomorphic()).toBe(componentState);
+  expect(useIsomorphic()).toEqual(componentState);
 });
 
 test('should provide isomorphicId to useEffect', () => {
@@ -61,6 +63,7 @@ test('should provide isomorphicId to useEffect', () => {
 
   mock({
     useEffect,
+    componentState: defaultComponentState,
   });
 
   useIsomorphic('testId');
@@ -73,12 +76,12 @@ test('should not load anything for loading component', () => {
   const useEffect = jest.fn();
 
   const componentState = {
+    ...defaultComponentState,
     isLoading: true,
   };
 
   mock({
-    useSelector: () => componentState,
-
+    componentState,
     dispatch,
     useEffect,
   });
@@ -97,12 +100,12 @@ test('should not load anything for ready component', () => {
   const useEffect = jest.fn();
 
   const componentState = {
+    ...defaultComponentState,
     isReady: true,
   };
 
   mock({
-    useSelector: () => componentState,
-
+    componentState,
     dispatch,
     useEffect,
   });
@@ -116,25 +119,29 @@ test('should not load anything for ready component', () => {
   expect(dispatch.mock.calls.length).toBe(0);
 });
 
-test('should request context successfully', async () => {
+test('should request context', async () => {
+  const requestContext = jest.fn();
   const isomorphicContext = Symbol('context');
 
   const dispatch = jest.fn();
   const useEffect = jest.fn();
 
   const componentState = {
+    ...defaultComponentState,
     isLoading: false,
     isReady: false,
   };
 
   mock({
-    useSelector: () => componentState,
-
+    requestContext,
+    componentState,
     dispatch,
     useEffect,
   });
 
-  useIsomorphic('testId', async () => isomorphicContext);
+  const getContext = async () => isomorphicContext;
+
+  useIsomorphic('testId', getContext);
 
   const effect = useEffect.mock.calls[0][0];
 
@@ -143,45 +150,11 @@ test('should request context successfully', async () => {
   expect(dispatch.mock.calls.length).toBe(1);
   expect(dispatch.mock.calls[0][0]).toEqual(loadContext('testId'));
 
-  await waitForCalls(dispatch, 2);
-
-  expect(dispatch.mock.calls.length).toBe(2);
-  expect(dispatch.mock.calls[1][0]).toEqual(loadContextSuccess('testId', isomorphicContext));
-});
-
-test('should request context with error', async () => {
-  const isomorphicError = Symbol('error');
-
-  const dispatch = jest.fn();
-  const useEffect = jest.fn();
-
-  const componentState = {
-    isLoading: false,
-    isReady: false,
-  };
-
-  mock({
-    useSelector: () => componentState,
-
-    dispatch,
-    useEffect,
-  });
-
-  useIsomorphic('testId', async () => {
-    throw new LoadContextError(isomorphicError);
-  });
-
-  const effect = useEffect.mock.calls[0][0];
-
-  effect();
-
-  expect(dispatch.mock.calls.length).toBe(1);
-  expect(dispatch.mock.calls[0][0]).toEqual(loadContext('testId'));
-
-  await waitForCalls(dispatch, 2);
-
-  expect(dispatch.mock.calls.length).toBe(2);
-  expect(dispatch.mock.calls[1][0]).toEqual(loadContextError('testId', isomorphicError));
+  expect(requestContext.mock.calls.length).toBe(1);
+  expect(requestContext.mock.calls[0][0]).toBe('testId');
+  expect(requestContext.mock.calls[0][1]).toBe(getContext);
+  expect(requestContext.mock.calls[0][2]).toBe(loadParams);
+  expect(requestContext.mock.calls[0][3]).toBe(dispatch);
 });
 
 test('should destroy with useEffect', () => {
@@ -189,13 +162,13 @@ test('should destroy with useEffect', () => {
   const useEffect = jest.fn();
 
   const componentState = {
+    ...defaultComponentState,
     isLoading: false,
     isReady: false,
   };
 
   mock({
-    useSelector: () => componentState,
-
+    componentState,
     dispatch,
     useEffect,
   });
@@ -213,4 +186,84 @@ test('should destroy with useEffect', () => {
 
   expect(dispatch.mock.calls.length).toBe(2);
   expect(dispatch.mock.calls[1][0]).toEqual(destroy('testId'));
+});
+
+test('should not reload loading component', () => {
+  const isomorphicContext = Symbol('context');
+  const dispatch = jest.fn();
+  const useCallback = jest.fn((fn) => fn);
+
+  const componentState = {
+    ...defaultComponentState,
+    isLoading: true,
+  };
+
+  mock({
+    componentState,
+    dispatch,
+    useCallback,
+  });
+
+  const getContext = async () => isomorphicContext;
+
+  const {
+    reload,
+  } = useIsomorphic('testId', getContext);
+
+  expect(useCallback.mock.calls[0][1]).toEqual([
+    'testId',
+    true,
+    getContext,
+  ]);
+
+  reload();
+
+  expect(dispatch.mock.calls.length).toBe(0);
+});
+
+
+test('should reload component', () => {
+  const requestContext = jest.fn();
+  const isomorphicContext = Symbol('context');
+  const useCallback = jest.fn((fn) => fn);
+
+  const dispatch = jest.fn();
+  const useEffect = jest.fn();
+
+  const componentState = {
+    ...defaultComponentState,
+    isLoading: false,
+    isReady: true,
+  };
+
+  mock({
+    useCallback,
+    requestContext,
+    componentState,
+    dispatch,
+    useEffect,
+  });
+
+  const getContext = async () => isomorphicContext;
+
+  const {
+    reload,
+  } = useIsomorphic('testId', getContext);
+
+  expect(useCallback.mock.calls[0][1]).toEqual([
+    'testId',
+    false,
+    getContext,
+  ]);
+
+  reload();
+
+  expect(dispatch.mock.calls.length).toBe(1);
+  expect(dispatch.mock.calls[0][0]).toEqual(reloadContext('testId'));
+
+  expect(requestContext.mock.calls.length).toBe(1);
+  expect(requestContext.mock.calls[0][0]).toBe('testId');
+  expect(requestContext.mock.calls[0][1]).toBe(getContext);
+  expect(requestContext.mock.calls[0][2]).toBe(loadParams);
+  expect(requestContext.mock.calls[0][3]).toBe(dispatch);
 });

@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 
 import { useIsomorphic, LoadContextError } from 'react-redux-isomorphic';
+
+const delay = (ms) => new Promise((resolve) => {
+  setTimeout(() => {
+    resolve();
+  }, ms);
+});
 
 const UserPage = ({
   match: {
@@ -15,9 +21,14 @@ const UserPage = ({
 }) => {
   const {
     isReady,
+    isReloading,
     context,
     error,
+
+    reload,
   } = useIsomorphic(`userDetail_${userId}`, async ({ fetch, setTitle, setStatus }) => {
+    await delay(1500);
+
     const [
       userResponse,
       otherUsersResponse,
@@ -52,6 +63,7 @@ const UserPage = ({
 
     return {
       user: json,
+      date: String(new Date()),
       otherUsers,
     };
   });
@@ -86,12 +98,19 @@ const UserPage = ({
 
   const {
     user,
+    date,
     otherUsers,
   } = context;
 
   return (
     <Container>
       <h1>{user.name || user.login}</h1>
+
+      <p>
+        Loaded at:
+        {' '}
+        {date}
+      </p>
 
       {
         user.name && (
@@ -114,7 +133,9 @@ const UserPage = ({
       }
 
       <p>
-        <Link to='/'>Back to users page</Link>
+        <Link to="/">
+          Back to users page
+        </Link>
       </p>
 
       {
@@ -136,6 +157,16 @@ const UserPage = ({
           </div>
         )
       }
+
+      <div>
+        <Button
+          type="button"
+          disabled={isReloading}
+          onClick={reload}
+        >
+          {isReloading ? 'Reloading...' : 'Reload'}
+        </Button>
+      </div>
     </Container>
   );
 };

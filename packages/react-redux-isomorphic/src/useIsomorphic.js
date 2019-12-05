@@ -1,14 +1,13 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import IsomorphicContext from './context';
-import getComponentState from './getComponentState';
-import { LoadContextError } from './errors';
+import useComponentState from './useComponentState';
+import requestContext from './requestContext';
 
 import {
   loadContext,
-  loadContextSuccess,
-  loadContextError,
+  reloadContext,
 
   destroy,
 } from './actions';
@@ -18,7 +17,14 @@ const useEffectFake = (handler) => {
 };
 
 const useIsomorphic = (isomorphicId, getContext) => {
-  const componentState = useSelector((storeState) => getComponentState(storeState, isomorphicId));
+  const {
+    isReady,
+    isLoading,
+    isReloading,
+    context,
+    error,
+  } = useComponentState(isomorphicId);
+
   const dispatch = useDispatch();
 
   const {
@@ -32,34 +38,17 @@ const useIsomorphic = (isomorphicId, getContext) => {
 
   useEffectIsomorphic(() => {
     if (
-      !componentState.isLoading
-      && !componentState.isReady
+      !isLoading
+      && !isReady
     ) {
       dispatch(loadContext(isomorphicId));
 
-      const requestContext = async () => {
-        let context;
-        let error;
-        try {
-          context = await getContext(loadParams);
-        } catch (catchedError) {
-          error = catchedError;
-        }
-
-        if (!error) {
-          dispatch(loadContextSuccess(isomorphicId, context));
-          return;
-        }
-
-        if (error instanceof LoadContextError) {
-          dispatch(loadContextError(isomorphicId, error.error));
-          return;
-        }
-
-        throw error;
-      };
-
-      requestContext();
+      requestContext(
+        isomorphicId,
+        getContext,
+        loadParams,
+        dispatch,
+      );
     }
 
     return () => {
@@ -67,7 +56,34 @@ const useIsomorphic = (isomorphicId, getContext) => {
     };
   }, [isomorphicId]);
 
-  return componentState;
+  const reload = React.useCallback(
+    () => {
+      if (isLoading) {
+        return;
+      }
+
+      dispatch(reloadContext(isomorphicId));
+
+      requestContext(
+        isomorphicId,
+        getContext,
+        loadParams,
+        dispatch,
+      );
+    },
+
+    [isomorphicId, isLoading, getContext],
+  );
+
+  return {
+    isReady,
+    isLoading,
+    isReloading,
+    context,
+    error,
+
+    reload,
+  };
 };
 
 export default useIsomorphic;
