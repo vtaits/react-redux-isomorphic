@@ -7,29 +7,6 @@ import { isomorphicIdPropTypes, isomorphicPropTypes } from './propTypes';
 import { LoadContextError } from './errors';
 
 export class ContextResolver extends Component {
-  static propTypes = {
-    component: PropTypes.func.isRequired,
-    componentProps: PropTypes.object.isRequired,
-
-    isomorphicId: isomorphicIdPropTypes.isRequired,
-
-    isomorphic: isomorphicPropTypes({}).isRequired,
-
-    loadParams: PropTypes.object.isRequired,
-    getContext: PropTypes.func.isRequired,
-    shouldReload: PropTypes.func,
-
-    loadContext: PropTypes.func.isRequired,
-    loadContextSuccess: PropTypes.func.isRequired,
-    loadContextError: PropTypes.func.isRequired,
-
-    destroy: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {
-    shouldReload: null,
-  }
-
   constructor(props) {
     super(props);
 
@@ -135,6 +112,29 @@ export class ContextResolver extends Component {
     });
   }
 }
+
+ContextResolver.propTypes = {
+  component: PropTypes.func.isRequired,
+  componentProps: PropTypes.object.isRequired,
+
+  isomorphicId: isomorphicIdPropTypes.isRequired,
+
+  isomorphic: isomorphicPropTypes({}).isRequired,
+
+  loadParams: PropTypes.object.isRequired,
+  getContext: PropTypes.func.isRequired,
+  shouldReload: PropTypes.func,
+
+  loadContext: PropTypes.func.isRequired,
+  loadContextSuccess: PropTypes.func.isRequired,
+  loadContextError: PropTypes.func.isRequired,
+
+  destroy: PropTypes.func.isRequired,
+};
+
+ContextResolver.defaultProps = {
+  shouldReload: null,
+};
 
 const IsomorphicWrapper = inject(ContextResolver);
 

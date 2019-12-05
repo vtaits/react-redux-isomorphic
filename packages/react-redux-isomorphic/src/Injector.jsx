@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import IsomorphicContext from './context';
 
 class Injector extends Component {
-  static propTypes = {
-    children: PropTypes.func.isRequired,
-  }
-
   renderChildren = ({
     loadParams,
   }) => {
@@ -26,5 +22,9 @@ class Injector extends Component {
     );
   }
 }
+
+Injector.propTypes = {
+  children: PropTypes.func.isRequired,
+};
 
 export default Injector;

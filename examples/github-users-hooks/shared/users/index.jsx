@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Grid, Table } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
 
 import { useIsomorphic, LoadContextError } from 'react-redux-isomorphic';
 
@@ -35,14 +35,14 @@ const UsersPage = () => {
 
   if (error) {
     return (
-      <Grid>
+      <Container>
         <h1>Error loading data</h1>
-      </Grid>
+      </Container>
     );
   }
 
   return (
-    <Grid>
+    <Container>
       <h1>Github users</h1>
 
       {
@@ -82,7 +82,7 @@ const UsersPage = () => {
           <h2>Loading ...</h2>
         )
       }
-    </Grid>
+    </Container>
   );
 };
 

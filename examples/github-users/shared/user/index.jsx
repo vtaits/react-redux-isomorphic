@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Grid } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { isomorphic, isomorphicPropTypes, LoadContextError } from 'react-redux-isomorphic';
 
@@ -43,36 +43,56 @@ const UserPage = ({
   } = context;
 
   return (
-    <Grid>
+    <Container>
       <h1>{user.name || user.login}</h1>
 
       {
         user.name && (
-          <p>Name: {user.name}</p>
+          <p>
+            Name:
+            {' '}
+            {user.name}
+          </p>
         )
       }
 
       {
         user.public_repos && (
-          <p>Public repos: {user.public_repos}</p>
+          <p>
+            Public repos:
+            {' '}
+            {user.public_repos}
+          </p>
         )
       }
 
       {
         user.public_gists && (
-          <p>Public gists: {user.public_gists}</p>
+          <p>
+            Public gists:
+            {' '}
+            {user.public_gists}
+          </p>
         )
       }
 
       {
         user.followers && (
-          <p>Followers: {user.followers}</p>
+          <p>
+            Followers:
+            {' '}
+            {user.followers}
+          </p>
         )
       }
 
       {
         user.following && (
-          <p>Following: {user.following}</p>
+          <p>
+            Following:
+            {' '}
+            {user.following}
+          </p>
         )
       }
 
@@ -99,9 +119,9 @@ const UserPage = ({
           </div>
         )
       }
-    </Grid>
+    </Container>
   );
-}
+};
 
 UserPage.propTypes = {
   isomorphic: isomorphicPropTypes({
@@ -121,7 +141,7 @@ UserPage.propTypes = {
         login: PropTypes.string.isRequired,
       })),
     }),
-  }),
+  }).isRequired,
 };
 
 export default isomorphic({
@@ -136,14 +156,14 @@ export default isomorphic({
       await fetch(`/api/search/users?q=e`),
     ]);
 
-    const status = userResponse.status;
+    const { status } = userResponse;
     const json = await userResponse.json();
 
     const otherUsersJson = await otherUsersResponse.json();
 
-    const otherUsers = otherUsersResponse.status < 400 ?
-      otherUsersJson.items.slice(0, 5) :
-      [];
+    const otherUsers = otherUsersResponse.status < 400
+      ? otherUsersJson.items.slice(0, 5)
+      : [];
 
     setStatus(status);
 

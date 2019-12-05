@@ -7,10 +7,6 @@ import IsomorphicContext from '../context';
 import IsomorphicProvider from '../IsomorphicProvider';
 
 class TestComponent extends Component {
-  static propTypes = {
-    checkLoadParams: PropTypes.func.isRequired,
-  }
-
   renderContent = (loadParams) => {
     const {
       checkLoadParams,
@@ -31,6 +27,10 @@ class TestComponent extends Component {
     );
   }
 }
+
+TestComponent.propTypes = {
+  checkLoadParams: PropTypes.func.isRequired,
+};
 
 test('should provide default loadParams', (done) => {
   const wrapper = mount(

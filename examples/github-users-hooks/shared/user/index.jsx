@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Grid } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { useIsomorphic, LoadContextError } from 'react-redux-isomorphic';
 
@@ -58,29 +58,29 @@ const UserPage = ({
 
   if (error) {
     return (
-      <Grid>
+      <Container>
         <h1>User not found</h1>
 
         <p>
-          <Link to='/'>
+          <Link to="/">
             Back to users page
           </Link>
         </p>
-      </Grid>
+      </Container>
     );
   }
 
   if (!isReady) {
     return (
-      <Grid>
+      <Container>
         <h2>Loading...</h2>
 
         <p>
-          <Link to='/'>
+          <Link to="/">
             Back to users page
           </Link>
         </p>
-      </Grid>
+      </Container>
     );
   }
 
@@ -90,7 +90,7 @@ const UserPage = ({
   } = context;
 
   return (
-    <Grid>
+    <Container>
       <h1>{user.name || user.login}</h1>
 
       {
@@ -136,7 +136,7 @@ const UserPage = ({
           </div>
         )
       }
-    </Grid>
+    </Container>
   );
 };
 
