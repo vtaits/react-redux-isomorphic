@@ -12,8 +12,6 @@ import {
   waitForContext,
 } from 'react-redux-isomorphic';
 
-import fetch from 'node-fetch';
-
 import path from 'path';
 
 import express from 'express';

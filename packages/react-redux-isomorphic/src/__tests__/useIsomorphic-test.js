@@ -221,7 +221,6 @@ test('should not reload loading component', () => {
   expect(dispatch.mock.calls.length).toBe(0);
 });
 
-
 test('should reload component', () => {
   const requestContext = jest.fn();
   const isomorphicContext = Symbol('context');
