@@ -6,6 +6,7 @@ appModulePath.addPath(path.join(__dirname, 'shared'));
 
 require('@babel/register')({
   presets: [
+    '@babel/preset-typescript',
     '@babel/env',
     '@babel/react',
   ],
@@ -14,9 +15,11 @@ require('@babel/register')({
     '@babel/plugin-transform-runtime',
     '@babel/plugin-proposal-class-properties',
   ],
+
+  extensions: ['.ts', '.tsx', '.js', '.jsx'],
 });
 
-const server = require('./server.jsx').default;
+const server = require('./server.tsx').default;
 const PORT = 3000;
 
 server.listen(PORT, function () {

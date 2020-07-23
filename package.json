@@ -5,9 +5,10 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "yarn workspace react-redux-isomorphic build",
-    "lint": "eslint packages --ext .js,.jsx --ignore-path .gitignore",
-    "test": "yarn lint && yarn test:unit",
+    "build": "yarn workspace react-redux-isomorphic run build",
+    "lint": "yarn workspace react-redux-isomorphic run lint",
+    "test": "yarn lint && yarn test:ts && yarn test:unit",
+    "test:ts": "yarn workspace react-redux-isomorphic run test:ts",
     "test:unit": "cross-env BABEL_ENV=test jest",
     "test:unit:watch": "cross-env BABEL_ENV=test jest --watchAll"
   },
@@ -24,13 +25,19 @@
     "@babel/plugin-transform-runtime": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
-    "babel-eslint": "^10.1.0",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/enzyme": "^3.10.5",
+    "@types/jest": "^26.0.5",
+    "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
     "babel-jest": "^26.1.0",
     "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^7.5.0",
-    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
@@ -39,7 +46,10 @@
     "jest": "^26.1.0",
     "path": "^0.12.7",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.1.3",
+    "typescript": "^3.9.7"
   },
   "jest": {
     "testPathIgnorePatterns": [

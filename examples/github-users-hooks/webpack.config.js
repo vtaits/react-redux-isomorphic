@@ -1,5 +1,4 @@
-const webpack = require('webpack')
-const path = require('path')
+const path = require('path');
 
 const context = path.join(__dirname, 'client')
 
@@ -7,14 +6,14 @@ module.exports = function() {
   return {
     mode: 'development',
     context,
-    entry: './index.jsx',
+    entry: './index.tsx',
     output: {
       path: path.join(__dirname, 'dist'),
       filename: 'bundle.js',
     },
     module: {
       rules: [{
-        test: [/(\.js)/, /(\.jsx)/],
+        test: [/(\.ts)/, /(\.tsx)/],
         exclude: /node_modules/,
         use: [{
           loader: 'babel-loader',
@@ -30,7 +29,7 @@ module.exports = function() {
         'shared',
         'node_modules',
       ],
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.ts', '.tsx'],
     },
   }
 }

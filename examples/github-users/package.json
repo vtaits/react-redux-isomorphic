@@ -4,7 +4,8 @@
   "description": "Github users example for react-redux-isomorphic",
   "scripts": {
     "build": "BABEL_ENV=es webpack",
-    "start": "yarn build && node index.js"
+    "start": "yarn build && node index.js",
+    "test:ts": "tsc -p ./tsconfig.validate.json --noEmit"
   },
   "license": "MIT",
   "dependencies": {
