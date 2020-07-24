@@ -9,7 +9,8 @@ export { default as useLoadParams } from './useLoadParams';
 export { default as isomorphic } from './isomorphic';
 export { default as useIsomorphic } from './useIsomorphic';
 export { default as IsomorphicProvider } from './IsomorphicProvider';
-export { default as waitForContext } from './waitForContext';
+export { waitAndRender } from './waitAndRender';
+export { waitForContext } from './waitForContext';
 export { LoadContextError } from './errors';
 
 export type {

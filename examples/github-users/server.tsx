@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 import {
   IsomorphicProvider,
-  waitForContext,
+  waitAndRender,
 } from 'react-redux-isomorphic';
 
 import path from 'path';
@@ -146,13 +146,7 @@ app.get('*', async (req, res) => {
     </Provider>
   );
 
-  // call context loaders
-  renderToString(componentForRender);
-
-  await waitForContext(store);
-
-  // collect markup
-  const reactMarkup = renderToString(componentForRender);
+  const reactMarkup = await waitAndRender(() => renderToString(componentForRender), store);
 
   const html = renderHTML(reactMarkup, title, store.getState());
 

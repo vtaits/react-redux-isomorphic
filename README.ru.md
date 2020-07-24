@@ -114,14 +114,14 @@ export default combineReducers({
 });
 ```
 
-Теперь нужно дождаться завершения всех асинхронных запросов из компонентов на сервере перед отправкой html на клиент. Для этого можно использовать функцию `waitForContext`.
+Теперь нужно дождаться завершения всех асинхронных запросов из компонентов на сервере перед отправкой html на клиент. Для этого можно использовать функцию `waitAndRender`.
 
 ```
 // server.jsx
 
 import fetch from 'node-fetch';
 import Provider from 'react-redux;
-import { IsomorphicProvider, waitForContext } from 'react-redux-isomorphic';
+import { IsomorphicProvider, waitAndRender } from 'react-redux-isomorphic';
 
 import express from 'express';
 
@@ -164,13 +164,7 @@ app.get('*', async (req, res) => {
     </Provider>
   );
 
-  // call context loaders
-  renderToString(componentForRender);
-
-  await waitForContext(store);
-
-  // collect markup
-  const reactMarkup = renderToString(componentForRender);
+  const reactMarkup = await waitAndRender(() => renderToString(componentForRender), store);
 
   const html = renderHTML(reactMarkup, store.getState());
 
@@ -217,7 +211,7 @@ const componentForRender = (
 
 import fetch from 'node-fetch';
 import Provider from 'react-redux;
-import { IsomorphicProvider, waitForContext } from 'react-redux-isomorphic';
+import { IsomorphicProvider, waitAndRender } from 'react-redux-isomorphic';
 
 import express from 'express';
 
@@ -268,13 +262,7 @@ app.get('*', async (req, res) => {
     </Provider>
   );
 
-  // call context loaders
-  renderToString(componentForRender);
-
-  await waitForContext(store);
-
-  // collect markup
-  const reactMarkup = renderToString(componentForRender);
+  const reactMarkup = await waitAndRender(() => renderToString(componentForRender), store);
 
   const html = renderHTML(reactMarkup, store.getState());
 
@@ -470,16 +458,19 @@ class AmazingComponent extends Component {
 - *context* - описание результата успешного выполнения `getContext`;
 - *error* - описание результата выполнения `getContext` с ошибкой.
 
-## waitForContext
+## waitAndRender
 
 ```
-import { waitForContext } from 'react-redux-isomorphic';
+import { waitAndRender } from 'react-redux-isomorphic';
 ```
 
-Асинхронная функция для ожидания выполнения всех `getContext` компонентов. Принимает аргументом `store`, в котором есть `reactReduxIsomorphic`.
+Асинхронная функция для ожидания выполнения всех `getContext` компонентов. Принимает аргументы:
+
+1. Функция рендера дерева `react`;
+2. `store`, в котором есть `reactReduxIsomorphic`.
 
 ```
-await waitForContext(store);
+await waitAndRender(store);
 ```
 
 ## Injector

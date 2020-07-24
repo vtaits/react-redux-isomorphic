@@ -2,7 +2,9 @@ import type {
   Store,
 } from 'redux';
 
-import waitForContext from '../waitForContext';
+import {
+  waitForContext,
+} from '../waitForContext';
 
 import type {
   StoreState,

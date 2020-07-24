@@ -6,19 +6,11 @@ import type {
   StoreState,
 } from './types';
 
-export const isAllComponentsLoaded = (
-  store: Store<StoreState>,
-): boolean => {
-  const {
-    reactReduxIsomorphic: {
-      pendingComponents,
-    },
-  } = store.getState();
+import {
+  isAllComponentsLoaded,
+} from './isAllComponentsLoaded';
 
-  return pendingComponents.length === 0;
-};
-
-const waitForContext = (store: Store<StoreState>): Promise<void> => {
+export const waitForContext = (store: Store<StoreState>): Promise<void> => {
   if (isAllComponentsLoaded(store)) {
     return Promise.resolve();
   }
@@ -33,5 +25,3 @@ const waitForContext = (store: Store<StoreState>): Promise<void> => {
     });
   });
 };
-
-export default waitForContext;

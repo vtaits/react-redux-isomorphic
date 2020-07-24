@@ -11,7 +11,8 @@ import useLoadParams from '../useLoadParams';
 import isomorphic from '../isomorphic';
 import useIsomorphic from '../useIsomorphic';
 import IsomorphicProvider from '../IsomorphicProvider';
-import waitForContext from '../waitForContext';
+import { waitAndRender } from '../waitAndRender';
+import { waitForContext } from '../waitForContext';
 import { LoadContextError } from '../errors';
 
 test('should export needed modules', () => {
@@ -24,6 +25,7 @@ test('should export needed modules', () => {
   expect(indexExports.isomorphic).toBe(isomorphic);
   expect(indexExports.useIsomorphic).toBe(useIsomorphic);
   expect(indexExports.IsomorphicProvider).toBe(IsomorphicProvider);
+  expect(indexExports.waitAndRender).toBe(waitAndRender);
   expect(indexExports.waitForContext).toBe(waitForContext);
   expect(indexExports.LoadContextError).toBe(LoadContextError);
 });
