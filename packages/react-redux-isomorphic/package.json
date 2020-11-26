@@ -41,23 +41,22 @@
   },
   "homepage": "https://github.com/vtaits/react-redux-isomorphic#readme",
   "peerDependencies": {
-    "react": "^16.8.3",
+    "react": "^16.14.0 || ^17.0.0",
     "react-redux": "^7.1.0",
     "redux": "^3.0.0 || ^4.0.0"
   },
   "devDependencies": {
-    "@types/react-redux": "^7.1.9",
-    "check-prop-types": "^1.1.2",
+    "@types/react-redux": "^7.1.11",
     "enzyme": "^3.11.0",
     "flux-standard-action": "^2.1.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-mock-store": "^1.5.4"
   },
   "dependencies": {
-    "@babel/runtime": "^7.10.5",
+    "@babel/runtime": "^7.12.5",
     "es6-error": "^4.1.1",
     "invariant": "^2.2.4",
     "prop-types": "^15.7.2"

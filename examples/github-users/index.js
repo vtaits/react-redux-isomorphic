@@ -8,7 +8,13 @@ require('@babel/register')({
   presets: [
     '@babel/preset-typescript',
     '@babel/env',
-    '@babel/react',
+
+    [
+      '@babel/preset-react',
+      {
+        runtime: 'automatic',
+      },
+    ],
   ],
 
   plugins: [

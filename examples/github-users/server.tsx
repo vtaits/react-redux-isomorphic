@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 

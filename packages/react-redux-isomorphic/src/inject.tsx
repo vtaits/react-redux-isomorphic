@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React from 'react';
 import type {
   ComponentType,
   FC,
@@ -8,24 +7,23 @@ import type {
 
 import useLoadParams from './useLoadParams';
 
-const inject = <BaseProps, LoadParams = Record<string, any>>(
+function inject<BaseProps, LoadParams = Record<string, any>>(
   WrappedComponent: ComponentType<BaseProps & {
     loadParams: LoadParams,
   }>,
-): ComponentType<BaseProps> => {
+): ComponentType<BaseProps> {
   const WithLoadParams: FC<BaseProps> = (props) => {
     const loadParams = useLoadParams<LoadParams>();
 
-    return React.createElement(
-      WrappedComponent,
-      {
-        ...props,
-        loadParams,
-      },
+    return (
+      <WrappedComponent
+        {...props}
+        loadParams={loadParams}
+      />
     );
   };
 
   return WithLoadParams;
-};
+}
 
 export default inject;
