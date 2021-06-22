@@ -40,7 +40,7 @@ const createStore = (initialState: StoreState): Store<StoreState> => {
   } as Store<StoreState>;
 };
 
-test('should call if pendingComponents length is 0', async (done) => {
+test('should call if pendingComponents length is 0', async () => {
   const store = createStore({
     reactReduxIsomorphic: {
       componentsParams: {},
@@ -49,8 +49,6 @@ test('should call if pendingComponents length is 0', async (done) => {
   });
 
   await waitForContext(store);
-
-  done();
 });
 
 test('should call after pendingComponents length is becoming 0', async () => {
