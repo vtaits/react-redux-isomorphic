@@ -1,0 +1,59 @@
+{
+  "name": "react-redux-isomorphic-filterlist",
+  "version": "0.1.0",
+  "description": "Integration of react-redux-isomorphic and @vtaits/react-filterlist",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "typings": "./ts/index.d.ts",
+  "files": [
+    "/es",
+    "/lib",
+    "/ts"
+  ],
+  "scripts": {
+    "clean": "rimraf es lib ts",
+    "build": "yarn build:cjs && yarn build:es && yarn build:ts",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel --extensions '.ts,.tsx' src --out-dir lib --ignore \"src/**/__tests__\"",
+    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts,.tsx' src --out-dir es --ignore \"src/**/__tests__\"",
+    "build:ts": "tsc --declaration --emitDeclarationOnly",
+    "test:ts": "tsc -p ./tsconfig.validate.json --noEmit",
+    "lint": "eslint src --ext .ts,.tsx --ignore-path ../../.gitignore",
+    "prepare": "yarn clean && yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vtaits/react-redux-isomorphic.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "redux",
+    "ssr",
+    "isomorphic",
+    "react-redux-isomorphic",
+    "filterlist",
+    "react-filterlist"
+  ],
+  "author": "Vadim Taits",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vtaits/react-redux-isomorphic/issues"
+  },
+  "peerDependencies": {
+    "@vtaits/filterlist": "^0.2.2",
+    "@vtaits/react-filterlist": "^0.3.0",
+    "react-redux-isomorphic": "^0.5.0"
+  },
+  "devDependencies": {
+    "@vtaits/filterlist": "^0.2.2",
+    "@vtaits/react-filterlist": "^0.3.0",
+    "react": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-redux-isomorphic": "^0.5.0",
+    "redux": "^4.0.5"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "es6-error": "^4.1.1"
+  }
+}
