@@ -2,6 +2,7 @@ import ExtendableError from 'es6-error';
 
 export class LoadListError<ErrorType, Additional> extends ExtendableError {
   error: ErrorType;
+
   additional: Additional;
 
   constructor({

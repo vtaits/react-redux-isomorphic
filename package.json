@@ -5,10 +5,10 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "yarn workspace react-redux-isomorphic run build",
-    "lint": "yarn workspace react-redux-isomorphic run lint",
+    "build": "lerna run build --stream",
+    "lint": "lerna run lint --stream",
     "test": "yarn lint && yarn test:ts && yarn test:unit",
-    "test:ts": "yarn workspace react-redux-isomorphic run test:ts",
+    "test:ts": "lerna run test:ts --stream",
     "test:unit": "cross-env BABEL_ENV=test jest",
     "test:unit:watch": "cross-env BABEL_ENV=test jest --watchAll"
   },
@@ -46,6 +46,7 @@
     "jest": "^27.0.5",
     "jsdom": "^16.6.0",
     "jsdom-global": "^3.0.2",
+    "lerna": "^4.0.0",
     "path": "^0.12.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
