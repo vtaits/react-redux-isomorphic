@@ -1,12 +1,18 @@
-import { useMemo, useRef } from 'react';
 import {
-  useIsomorphic,
-  useLoadParams,
+  useMemo as useMemoBase,
+  useRef as useRefBase,
+} from 'react';
+import {
+  useIsomorphic as useIsomorphicBase,
+  useLoadParams as useLoadParamsBase,
   LoadContextError as IsomorphicError,
 } from 'react-redux-isomorphic';
-import Filterlist, {
-  collectListInitialState,
-  collectOptions,
+import type {
+  UseIsomorphicResult,
+} from 'react-redux-isomorphic';
+import {
+  collectListInitialState as collectListInitialStateBase,
+  collectOptions as collectOptionsBase,
   LoadListError as FilterlistError,
 } from '@vtaits/filterlist';
 import type {
@@ -14,10 +20,11 @@ import type {
   ItemsLoaderResponse,
 } from '@vtaits/filterlist';
 import {
-  useFilterlist,
+  useFilterlist as useFilterlistBase,
 } from '@vtaits/react-filterlist';
 import type {
   Params as FilterlistParams,
+  ParsedFiltersAndSort,
 } from '@vtaits/react-filterlist';
 
 import {
@@ -25,10 +32,12 @@ import {
 } from './errors';
 
 import type {
+  IsomorphicErrorType,
   Params,
+  UseFilterlistIsomorphicReturn,
 } from './types';
 
-export const useFilterlistIsomorphic = <
+export const useFilterlistIsomorphicPure = <
 LoadParams,
 Item,
 Additional,
@@ -37,8 +46,18 @@ FiltersAndSortData,
 >(
     isomorphicId: string,
     listParams: Params<LoadParams, Item, Additional, ErrorType, FiltersAndSortData>,
-  ): [ListState<Item, Additional, ErrorType>, Filterlist<Item, Additional, ErrorType>] => {
-  const isomorphicResponseRef = useRef(null);
+    useIsomorphic: typeof useIsomorphicBase,
+    useLoadParams: typeof useLoadParamsBase,
+    collectListInitialState: typeof collectListInitialStateBase,
+    collectOptions: typeof collectOptionsBase,
+    useFilterlist: typeof useFilterlistBase,
+    useRef: typeof useRefBase,
+    useMemo: typeof useMemoBase,
+  ): UseFilterlistIsomorphicReturn<Item, Additional, ErrorType> => {
+  const isomorphicResponseRef = useRef<UseIsomorphicResult<
+  ItemsLoaderResponse<Item, Additional>,
+  IsomorphicErrorType<ErrorType, Additional>
+  >>(null);
 
   const listOptions = useMemo(
     () => collectOptions(
@@ -55,17 +74,22 @@ FiltersAndSortData,
 
   const isomorphicParams = useLoadParams<LoadParams>();
 
-  const isomorphicResponse = useIsomorphic(isomorphicId, async () => {
+  const isomorphicResponse = useIsomorphic<
+  LoadParams,
+  ItemsLoaderResponse<Item, Additional>,
+  IsomorphicErrorType<ErrorType, Additional>
+  >(isomorphicId, async () => {
     if (!listOptions.autoload) {
       return null;
     }
 
     const {
+      loadItems,
       parseFiltersAndSort = null,
       filtersAndSortData = null,
     } = listParams;
 
-    let parsedState;
+    let parsedState: Partial<ParsedFiltersAndSort>;
 
     if (parseFiltersAndSort) {
       parsedState = await parseFiltersAndSort(filtersAndSortData);
@@ -73,12 +97,12 @@ FiltersAndSortData,
       parsedState = {};
     }
 
-    let response;
-    let cathcedError;
-    let hasError;
+    let response: ItemsLoaderResponse<Item, Additional>;
+    let cathcedError: LoadListError<ErrorType, Additional> | Error;
+    let hasError: boolean;
 
     try {
-      response = await listParams.loadItems(
+      response = await loadItems(
         isomorphicParams,
         {
           ...listInitialState,
@@ -108,61 +132,65 @@ FiltersAndSortData,
 
   isomorphicResponseRef.current = isomorphicResponse;
 
-  const filterlistParams = useMemo(() => ({
-    ...listParams,
+  const filterlistParams = useMemo(
+    (): FilterlistParams<Item, Additional, ErrorType, FiltersAndSortData> => ({
+      ...listParams,
 
-    loadItems: async (currentListState) => {
-      const {
-        isReady,
-        context: isomorphicContext,
-        error,
-      } = isomorphicResponseRef.current;
+      loadItems: async (currentListState: ListState<Item, Additional, ErrorType>) => {
+        const {
+          isReady,
+          context: isomorphicContext,
+          error,
+        } = isomorphicResponseRef.current;
 
-      if (!isReady) {
-        return {
-          items: [],
-          additional: listInitialState.additional,
-        };
-      }
-
-      if (currentListState.isFirstLoad) {
-        if (error) {
-          throw new FilterlistError(error);
+        if (!isReady) {
+          return {
+            items: [],
+            additional: listInitialState.additional,
+          };
         }
 
-        return isomorphicContext;
-      }
+        if (currentListState.isFirstLoad) {
+          if (error) {
+            throw new FilterlistError(error);
+          }
 
-      let response: ItemsLoaderResponse<Item, Additional>;
-      let cathcedError: LoadListError<ErrorType, Additional> | Error;
-      let hasError: boolean;
-
-      try {
-        response = await listParams.loadItems(
-          isomorphicParams,
-          currentListState,
-        );
-
-        hasError = false;
-      } catch (e) {
-        cathcedError = e;
-        hasError = true;
-      }
-
-      if (hasError) {
-        if (cathcedError instanceof LoadListError) {
-          throw new FilterlistError({
-            error: cathcedError.error,
-            additional: cathcedError.additional,
-          });
+          return isomorphicContext;
         }
 
-        throw cathcedError;
-      }
+        let response: ItemsLoaderResponse<Item, Additional>;
+        let cathcedError: LoadListError<ErrorType, Additional> | Error;
+        let hasError: boolean;
 
-      return response;
-    },
-  }), [isomorphicId, listParams.filtersAndSortData]);
+        try {
+          response = await listParams.loadItems(
+            isomorphicParams,
+            currentListState,
+          );
+
+          hasError = false;
+        } catch (e) {
+          cathcedError = e;
+          hasError = true;
+        }
+
+        if (hasError) {
+          if (cathcedError instanceof LoadListError) {
+            throw new FilterlistError({
+              error: cathcedError.error,
+              additional: cathcedError.additional,
+            });
+          }
+
+          throw cathcedError;
+        }
+
+        return response;
+      },
+    }),
+
+    [isomorphicId, listParams.filtersAndSortData],
+  );
 
   const {
     isReady,
@@ -190,3 +218,24 @@ FiltersAndSortData,
 
   return [listInitialState, filterlist];
 };
+
+export const useFilterlistIsomorphic = <
+LoadParams,
+Item,
+Additional,
+ErrorType,
+FiltersAndSortData,
+>(
+    isomorphicId: string,
+    listParams: Params<LoadParams, Item, Additional, ErrorType, FiltersAndSortData>,
+  ): UseFilterlistIsomorphicReturn<Item, Additional, ErrorType> => useFilterlistIsomorphicPure(
+    isomorphicId,
+    listParams,
+    useIsomorphicBase,
+    useLoadParamsBase,
+    collectListInitialStateBase,
+    collectOptionsBase,
+    useFilterlistBase,
+    useRefBase,
+    useMemoBase,
+  );
