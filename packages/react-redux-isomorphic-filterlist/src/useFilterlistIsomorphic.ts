@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   useMemo as useMemoBase,
   useRef as useRefBase,
