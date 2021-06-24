@@ -8,6 +8,18 @@ Integraion of packages [react-redux-isomorphic](https://github.com/vtaits/react-
 
 List of items will be server-side rendered after first load.
 
+## Installation
+
+```
+npm install react-redux-isomorphic @vtaits/filterlist @vtaits/react-filterlist react-redux-isomorphic-filterlist --save
+```
+
+or
+
+```
+yarn add react-redux-isomorphic @vtaits/filterlist @vtaits/react-filterlist react-redux-isomorphic-filterlist
+```
+
 ## Simple example
 
 ```javascript
