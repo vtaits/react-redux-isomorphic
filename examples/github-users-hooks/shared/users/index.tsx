@@ -1,12 +1,19 @@
 import type {
+  ChangeEventHandler,
   FC,
+} from 'react';
+import {
+  useCallback,
 } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import { Container, Table } from 'react-bootstrap';
 
-import { useIsomorphic, LoadContextError } from 'react-redux-isomorphic';
+import {
+  useFilterlistIsomorphic,
+  LoadListError,
+} from 'react-redux-isomorphic-filterlist';
 
 import type {
   LoadParams,
@@ -15,33 +22,63 @@ import type {
 } from '../types';
 
 const UsersPage: FC = () => {
+  const [
+    listState,
+    filterlist,
+  ] = useFilterlistIsomorphic(
+    'usersPage',
+
+    {
+      loadItems: async (
+        {
+          fetch,
+          setTitle,
+        }: LoadParams,
+        {
+          appliedFilters,
+        },
+      ) => {
+        const usersResponse = await fetch('/api/users/');
+
+        const { status } = usersResponse;
+        const json = await usersResponse.json();
+    
+        if (status < 400) {
+          setTitle('Github users');
+        } else {
+          setTitle((json as ErrorResponse).message);
+    
+          throw new LoadListError({
+            error: {
+              status,
+              json,
+            },
+          });
+        }
+
+        const loginFilter = appliedFilters.login as string;
+
+        const filteredItems = loginFilter
+          ? (json as User[]).filter(({ login }) => login.includes(loginFilter))
+          : json as User[];
+
+        return {
+          items: filteredItems,
+        };
+      },
+    },
+  );
+
+  const onSearchLoginChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    filterlist.setAndApplyFilter('login', e.target.value);
+  }, [filterlist]);
+
   const {
-    isReady,
-    context: isomorphicContext,
+    items,
+    appliedFilters,
+    loading,
     error,
-  } = useIsomorphic<LoadParams, {
-    items: User[];
-  }>('usersList', async ({ fetch, setTitle }) => {
-    const usersResponse = await fetch('/api/users/');
-
-    const { status } = usersResponse;
-    const json = await usersResponse.json();
-
-    if (status < 400) {
-      setTitle('Github users');
-    } else {
-      setTitle((json as ErrorResponse).message);
-
-      throw new LoadContextError({
-        status,
-        json,
-      });
-    }
-
-    return {
-      items: json,
-    };
-  });
+  } = listState;
 
   if (error) {
     return (
@@ -55,40 +92,52 @@ const UsersPage: FC = () => {
     <Container>
       <h1>Github users</h1>
 
-      {
-        isReady ? (
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  Login
-                </th>
+      <Table>
+        <thead>
+          <tr>
+            <th>
+              Login
+            </th>
 
-                <th>
-                  Score
-                </th>
+            <th>
+              Score
+            </th>
+          </tr>
+
+          <tr>
+            <th>
+              <input
+                type="text"
+                value={appliedFilters.login as string || ''}
+                onChange={onSearchLoginChange}
+              />
+            </th>
+
+            <th />
+          </tr>
+        </thead>
+
+        <tbody>
+          {
+            items.map(({ id, login, score }) => (
+              <tr key={id}>
+                <td>
+                  <Link to={`/${id}/`}>
+                    {login}
+                  </Link>
+                </td>
+
+                <td>
+                  {score}
+                </td>
               </tr>
-            </thead>
+            ))
+          }
+        </tbody>
+      </Table>
 
-            <tbody>
-              {
-                isomorphicContext.items.map(({ id, login, score }) => (
-                  <tr key={id}>
-                    <td>
-                      <Link to={`/${id}/`}>
-                        {login}
-                      </Link>
-                    </td>
-
-                    <td>
-                      {score}
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </Table>
-        ) : (
+      {
+        loading && (
           <h2>Loading ...</h2>
         )
       }
