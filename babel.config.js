@@ -43,8 +43,8 @@ module.exports = {
             modules: false,
 
             targets: {
-              firefox: '83',
-              chrome: '87',
+              firefox: '90',
+              chrome: '91',
             },
           },
         ],
@@ -76,7 +76,7 @@ module.exports = {
   plugins: [
     // https://github.com/babel/babel/issues/10261
     ['@babel/plugin-transform-runtime', {
-      version: require('@babel/helpers/package.json').version,
+      version: '7.12.5',
     }],
 
     '@babel/plugin-proposal-class-properties',

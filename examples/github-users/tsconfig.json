@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "lib": ["es2020", "DOM"],
+    "types": [
+      "node"
+    ],
     "outDir": "ts",
     "jsx": "react-jsx",
     "esModuleInterop": true

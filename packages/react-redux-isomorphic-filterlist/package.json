@@ -13,8 +13,8 @@
   "scripts": {
     "clean": "rimraf es lib ts",
     "build": "yarn build:cjs && yarn build:es && yarn build:ts",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel --extensions '.ts,.tsx' src --out-dir lib --ignore \"src/**/__tests__\"",
-    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts,.tsx' src --out-dir es --ignore \"src/**/__tests__\"",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel --root-mode upward --extensions '.ts,.tsx' src --out-dir lib --ignore \"src/**/__tests__\"",
+    "build:es": "cross-env BABEL_ENV=es babel --root-mode upward --extensions '.ts,.tsx' src --out-dir es --ignore \"src/**/__tests__\"",
     "build:ts": "tsc --declaration --emitDeclarationOnly",
     "test:ts": "tsc -p ./tsconfig.validate.json --noEmit",
     "lint": "eslint src --ext .ts,.tsx --ignore-path ../../.gitignore",
@@ -46,12 +46,31 @@
     "react-redux-isomorphic": "^0.5.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@types/jest": "^26.0.24",
+    "@types/react": "^17.0.14",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "@vtaits/filterlist": "^0.2.2",
     "@vtaits/react-filterlist": "^0.3.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-import-resolver-node": "^0.3.4",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^27.0.6",
     "react": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-redux-isomorphic": "^0.5.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.5"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",

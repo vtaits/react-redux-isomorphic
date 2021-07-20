@@ -1,6 +1,6 @@
 const path = require('path');
 
-const context = path.join(__dirname, 'client')
+const context = path.join(__dirname, 'client');
 
 module.exports = {
   mode: 'development',
@@ -17,7 +17,7 @@ module.exports = {
       use: [{
         loader: 'babel-loader',
         options: {
-          root: path.join(__dirname, '../..'),
+          rootMode: 'upward',
         },
       }],
     }],
