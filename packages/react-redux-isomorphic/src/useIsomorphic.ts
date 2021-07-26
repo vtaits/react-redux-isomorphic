@@ -13,6 +13,7 @@ import {
 } from './actions';
 
 import type {
+  DefaultLoadParams,
   UseIsomorphicResult,
 } from './types';
 
@@ -20,7 +21,7 @@ const useEffectFake: typeof React.useEffect = (handler) => {
   handler();
 };
 
-const useIsomorphic = <LoadParams, IsomorphicContext, IsomorphicError = Error>(
+const useIsomorphic = <IsomorphicContext, IsomorphicError = Error, LoadParams = DefaultLoadParams>(
   isomorphicId: string,
   getContext: (loadParams: LoadParams) => IsomorphicContext | Promise<IsomorphicContext>,
 ): UseIsomorphicResult<IsomorphicContext, IsomorphicError> => {
@@ -50,7 +51,7 @@ const useIsomorphic = <LoadParams, IsomorphicContext, IsomorphicError = Error>(
     ) {
       dispatch(loadContext(isomorphicId));
 
-      requestContext<LoadParams, IsomorphicContext, IsomorphicError>(
+      requestContext(
         isomorphicId,
         getContext,
         loadParams as LoadParams,

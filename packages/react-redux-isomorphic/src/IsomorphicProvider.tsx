@@ -1,30 +1,36 @@
 import type {
-  FC,
+  ReactElement,
   ReactNode,
 } from 'react';
 
 import IsomorphicContext from './context';
 
-export type IsomorphicProviderProps = {
-  loadParams?: Record<string, any>;
+import type {
+  DefaultLoadParams,
+} from './types';
+
+export type IsomorphicProviderProps<LoadParams = DefaultLoadParams> = {
+  loadParams?: LoadParams;
   isFakeHooks?: boolean;
   children?: ReactNode;
 };
 
-const IsomorphicProvider: FC<IsomorphicProviderProps> = ({
+function IsomorphicProvider<LoadParams = DefaultLoadParams>({
   loadParams,
   isFakeHooks,
   children,
-}) => (
-  <IsomorphicContext.Provider
-    value={{
-      loadParams,
-      isFakeHooks,
-    }}
-  >
-    {children}
-  </IsomorphicContext.Provider>
-);
+}: IsomorphicProviderProps<LoadParams>): ReactElement {
+  return (
+    <IsomorphicContext.Provider
+      value={{
+        loadParams,
+        isFakeHooks,
+      }}
+    >
+      {children}
+    </IsomorphicContext.Provider>
+  );
+}
 
 IsomorphicProvider.defaultProps = {
   loadParams: {},

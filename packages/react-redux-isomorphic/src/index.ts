@@ -14,8 +14,9 @@ export { waitForContext } from './waitForContext';
 export { LoadContextError } from './errors';
 
 export type {
+  DefaultLoadParams,
+  FullState,
   SingleState,
   StoreState,
-  FullState,
   UseIsomorphicResult,
 } from './types';

@@ -555,3 +555,20 @@ const AmazingComponent = () => {
   ...
 };
 ```
+
+## typescript
+
+Пример глобальной типизации параметров загрузки:
+
+```
+import 'react-redux-isomorphic';
+
+type MyLoadParams = {
+  // Определить параметры загрузки здесь
+};
+
+declare module 'react-redux-isomorphic' {
+  export interface DefaultLoadParams extends MyLoadParams {
+  }
+}
+```

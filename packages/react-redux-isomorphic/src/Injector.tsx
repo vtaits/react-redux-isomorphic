@@ -4,16 +4,19 @@ import type {
 } from 'react';
 
 import IsomorphicContext from './context';
+import type {
+  DefaultLoadParams,
+} from './types';
 
-export type InjectorProps<LoadParams = Record<string, any>> = {
+export type InjectorProps<LoadParams = DefaultLoadParams> = {
   children: (loadParams: LoadParams) => ReactNode;
 };
 
-class Injector<LoadParams = Record<string, any>> extends Component<InjectorProps<LoadParams>> {
+class Injector<LoadParams = DefaultLoadParams> extends Component<InjectorProps<LoadParams>> {
   renderChildren = ({
     loadParams,
   }: {
-    loadParams: Record<string, any>;
+    loadParams: DefaultLoadParams;
   }): ReactNode => {
     const {
       children,

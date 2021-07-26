@@ -9,7 +9,15 @@ import {
   loadContextError,
 } from './actions';
 
-const requestContext = async <LoadParams, IsomorphicContext, IsomorphicError>(
+import type {
+  DefaultLoadParams,
+} from './types';
+
+const requestContext = async <
+IsomorphicContext,
+IsomorphicError,
+LoadParams = DefaultLoadParams,
+>(
   isomorphicId: string,
   getContext: (loadParams: LoadParams) => IsomorphicContext | Promise<IsomorphicContext>,
   loadParams: LoadParams,

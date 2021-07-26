@@ -6,8 +6,11 @@ import type {
 } from 'react';
 
 import useLoadParams from './useLoadParams';
+import type {
+  DefaultLoadParams,
+} from './types';
 
-function inject<BaseProps, LoadParams = Record<string, any>>(
+function inject<BaseProps, LoadParams = DefaultLoadParams>(
   WrappedComponent: ComponentType<BaseProps & {
     loadParams: LoadParams,
   }>,

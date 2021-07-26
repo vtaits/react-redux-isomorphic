@@ -12,7 +12,6 @@ import { Container, Button } from 'react-bootstrap';
 import { useIsomorphic, LoadContextError } from 'react-redux-isomorphic';
 
 import type {
-  LoadParams,
   User,
   ErrorResponse,
 } from '../types';
@@ -33,7 +32,7 @@ const UserPage: FC<RouteComponentProps<{
     error,
 
     reload,
-  } = useIsomorphic<LoadParams, {
+  } = useIsomorphic<{
     user: User;
     date: string;
     otherUsers: User[];

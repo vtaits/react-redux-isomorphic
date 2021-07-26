@@ -11,8 +11,11 @@ import type {
 import * as actions from './actions';
 
 import getComponentState from './getComponentState';
+import type {
+  DefaultLoadParams,
+} from './types';
 
-export type IsomorphicParams<BaseProps, LoadParams, IsomorphicContext> = {
+export type IsomorphicParams<BaseProps, IsomorphicContext, LoadParams = DefaultLoadParams> = {
   isomorphicId?: string;
   getContext: (
     loadParams: LoadParams,
@@ -21,13 +24,18 @@ export type IsomorphicParams<BaseProps, LoadParams, IsomorphicContext> = {
   shouldReload?: (prevProps: BaseProps, nextProps: BaseProps) => boolean;
 };
 
-const isomorphic = <BaseProps, LoadParams, IsomorphicContext, IsomorphicError = Error>({
-  isomorphicId,
-  getContext,
-  shouldReload,
-}: IsomorphicParams<BaseProps, LoadParams, IsomorphicContext>): (
+const isomorphic = <
+BaseProps,
+IsomorphicContext,
+IsomorphicError = Error,
+LoadParams = DefaultLoadParams,
+>({
+    isomorphicId,
+    getContext,
+    shouldReload,
+  }: IsomorphicParams<BaseProps, IsomorphicContext, LoadParams>): (
     component: ComponentType<ContextResolverProps<
-    BaseProps, LoadParams, IsomorphicContext, IsomorphicError>>,
+    BaseProps, IsomorphicContext, IsomorphicError, LoadParams>>,
   ) => ComponentType<BaseProps> => {
   invariant(
     typeof getContext === 'function',
@@ -43,7 +51,7 @@ const isomorphic = <BaseProps, LoadParams, IsomorphicContext, IsomorphicError = 
 
   return (
     component: ComponentType<ContextResolverProps<
-    BaseProps, LoadParams, IsomorphicContext, IsomorphicError>>,
+    BaseProps, IsomorphicContext, IsomorphicError, LoadParams>>,
   ): ComponentType<BaseProps> => {
     const mapStateToProps = (storeState, componentProps) => {
       const currentIsomorphicId = isomorphicId || componentProps.isomorphicId;

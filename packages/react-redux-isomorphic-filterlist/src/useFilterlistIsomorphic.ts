@@ -8,6 +8,7 @@ import {
   LoadContextError as IsomorphicError,
 } from 'react-redux-isomorphic';
 import type {
+  DefaultLoadParams,
   UseIsomorphicResult,
 } from 'react-redux-isomorphic';
 import {
@@ -38,14 +39,14 @@ import type {
 } from './types';
 
 export const useFilterlistIsomorphicPure = <
-LoadParams,
 Item,
 Additional,
 ErrorType,
 FiltersAndSortData,
+LoadParams = DefaultLoadParams,
 >(
     isomorphicId: string,
-    listParams: Params<LoadParams, Item, Additional, ErrorType, FiltersAndSortData>,
+    listParams: Params<Item, Additional, ErrorType, FiltersAndSortData, LoadParams>,
     useIsomorphic: typeof useIsomorphicBase,
     useLoadParams: typeof useLoadParamsBase,
     collectListInitialState: typeof collectListInitialStateBase,
@@ -75,9 +76,9 @@ FiltersAndSortData,
   const isomorphicParams = useLoadParams<LoadParams>();
 
   const isomorphicResponse = useIsomorphic<
-  LoadParams,
   ItemsLoaderResponse<Item, Additional>,
-  IsomorphicErrorType<ErrorType, Additional>
+  IsomorphicErrorType<ErrorType, Additional>,
+  LoadParams
   >(isomorphicId, async () => {
     if (!listOptions.autoload) {
       return null;
@@ -220,14 +221,14 @@ FiltersAndSortData,
 };
 
 export const useFilterlistIsomorphic = <
-LoadParams,
 Item,
 Additional,
 ErrorType,
 FiltersAndSortData,
+LoadParams = DefaultLoadParams,
 >(
     isomorphicId: string,
-    listParams: Params<LoadParams, Item, Additional, ErrorType, FiltersAndSortData>,
+    listParams: Params<Item, Additional, ErrorType, FiltersAndSortData, LoadParams>,
   ): UseFilterlistIsomorphicReturn<Item, Additional, ErrorType> => useFilterlistIsomorphicPure(
     isomorphicId,
     listParams,

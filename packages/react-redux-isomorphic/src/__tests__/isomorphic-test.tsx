@@ -72,7 +72,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and default
     },
   });
 
-  const DecoratedComponent = isomorphic<Record<string, any>, Record<string, any>, any, any>({
+  const DecoratedComponent = isomorphic<Record<string, any>, any, any, Record<string, any>>({
     isomorphicId: 'test',
     getContext,
     shouldReload,
@@ -115,7 +115,7 @@ test('should render IsomorphicWrapper by isomorphicId from props and default sta
     },
   });
 
-  const DecoratedComponent = isomorphic<Record<string, any>, Record<string, any>, any, any>({
+  const DecoratedComponent = isomorphic<Record<string, any>, any, any, Record<string, any>>({
     getContext,
   })(TestComponent);
 
@@ -165,7 +165,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and state f
     },
   });
 
-  const DecoratedComponent = isomorphic<Record<string, any>, Record<string, any>, any, any>({
+  const DecoratedComponent = isomorphic<Record<string, any>, any, any, Record<string, any>>({
     isomorphicId: 'test',
     getContext,
   })(TestComponent);
@@ -220,7 +220,7 @@ test('should render IsomorphicWrapper by isomorphicId from decorator and state f
     },
   });
 
-  const DecoratedComponent = isomorphic<Record<string, any>, Record<string, any>, any, any>({
+  const DecoratedComponent = isomorphic<Record<string, any>, any, any, Record<string, any>>({
     getContext,
   })(TestComponent);
 

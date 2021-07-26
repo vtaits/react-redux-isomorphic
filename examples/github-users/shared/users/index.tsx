@@ -15,7 +15,6 @@ import type {
 } from 'react-redux-isomorphic';
 
 import type {
-  LoadParams,
   User,
 } from '../types';
 
@@ -87,7 +86,7 @@ const UsersPage: FC<UsersPageProps> = ({
   );
 };
 
-export default isomorphic<RouteComponentProps, LoadParams, IsomorphicContext>({
+export default isomorphic<RouteComponentProps, IsomorphicContext>({
   isomorphicId: 'usersList',
 
   getContext: async ({ fetch, setTitle }) => {

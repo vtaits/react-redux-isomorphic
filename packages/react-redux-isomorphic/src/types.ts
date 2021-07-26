@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface DefaultLoadParams {}
+
 export type SingleState<IsomorphicContext, IsomorphicError = Error> = {
   isReady: boolean;
   isLoading: boolean;

@@ -9,10 +9,16 @@ import inject from './inject';
 import { LoadContextError } from './errors';
 
 import type {
+  DefaultLoadParams,
   SingleState,
 } from './types';
 
-export type ContextResolverProps<BaseProps, LoadParams, IsomorphicContext, IsomorphicError> = {
+export type ContextResolverProps<
+BaseProps,
+IsomorphicContext,
+IsomorphicError,
+LoadParams = DefaultLoadParams,
+> = {
   component: ComponentType<BaseProps & {
     isomorphic: SingleState<IsomorphicContext, IsomorphicError>;
   }>,
@@ -38,9 +44,9 @@ export type ContextResolverProps<BaseProps, LoadParams, IsomorphicContext, Isomo
 
 export class ContextResolver<
 BaseProps,
-LoadParams,
 IsomorphicContext,
 IsomorphicError,
+LoadParams = DefaultLoadParams,
 > extends Component<ContextResolverProps<
   BaseProps,
   LoadParams,

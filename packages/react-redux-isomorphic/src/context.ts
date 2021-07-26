@@ -1,7 +1,11 @@
 import { createContext } from 'react';
 
+import type {
+  DefaultLoadParams,
+} from './types';
+
 const IsomorphicContext = createContext<{
-  loadParams: Record<string, any>;
+  loadParams: DefaultLoadParams;
   isFakeHooks: boolean;
 }>({
   loadParams: {},

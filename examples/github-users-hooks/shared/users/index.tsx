@@ -16,7 +16,6 @@ import {
 } from 'react-redux-isomorphic-filterlist';
 
 import type {
-  LoadParams,
   User,
   ErrorResponse,
 } from '../types';
@@ -33,7 +32,7 @@ const UsersPage: FC = () => {
         {
           fetch,
           setTitle,
-        }: LoadParams,
+        },
         {
           appliedFilters,
         },

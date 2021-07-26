@@ -1,4 +1,7 @@
 import type {
+  DefaultLoadParams,
+} from 'react-redux-isomorphic';
+import type {
   // eslint-disable-next-line import/no-named-default
   default as Filterlist,
   ItemsLoaderResponse,
@@ -9,25 +12,25 @@ import type {
 } from '@vtaits/react-filterlist';
 
 export type ItemsLoader<
-LoadParams,
 Item,
 Additional,
 Error,
+LoadParams = DefaultLoadParams,
 > = (
   loadParams: LoadParams,
   prevListState: ListState<Item, Additional, Error>,
 ) => ItemsLoaderResponse<Item, Additional> | Promise<ItemsLoaderResponse<Item, Additional>>;
 
 export type Params<
-LoadParams,
 Item,
 Additional,
 Error,
 FiltersAndSortData,
+LoadParams = DefaultLoadParams,
 > =
   & Omit<FilterlistParams<Item, Additional, Error, FiltersAndSortData>, 'loadItems'>
   & {
-    loadItems: ItemsLoader<LoadParams, Item, Additional, Error>;
+    loadItems: ItemsLoader<Item, Additional, Error, LoadParams>;
   };
 
 export type IsomorphicErrorType<ErrorType, Additional> = {
