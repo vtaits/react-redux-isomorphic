@@ -716,6 +716,39 @@ describe('result', () => {
     ]);
   });
 
+  test('should return null if list state is null', () => {
+    const filterlist = Symbol('filterlist');
+
+    const result = useFilterlistIsomorphicPure(
+      'testId',
+      defaultParams,
+      () => ({
+        ...defaultUseIsomorphicResponse,
+
+        context: {
+          items: [1, 2, 3],
+          additional: 'testAdditional1',
+        } as any,
+
+        isReady: true,
+      }),
+      useLoadParamsMock,
+      collectListInitialStateMock,
+      collectOptionsMock,
+      () => [
+        null,
+        filterlist as any,
+      ],
+      useRefMock,
+      useMemoMock,
+    );
+
+    expect(result).toEqual([
+      null,
+      filterlist,
+    ]);
+  });
+
   test('should return list state with result of `useIsomorphic` for first load', () => {
     const filterlist = Symbol('filterlist');
 

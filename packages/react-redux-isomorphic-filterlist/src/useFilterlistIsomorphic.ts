@@ -208,6 +208,13 @@ LoadParams = DefaultLoadParams,
   ] = useFilterlist(filterlistParams, [isomorphicId, isReady]);
 
   if (isReady) {
+    if (!listState) {
+      return [
+        null,
+        filterlist,
+      ];
+    }
+
     if (listState.isFirstLoad) {
       return [
         {
