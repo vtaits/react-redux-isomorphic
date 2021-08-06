@@ -5131,8 +5131,8 @@ __metadata:
     react-bootstrap: ^1.6.1
     react-dom: ^17.0.2
     react-redux: ^7.2.4
-    react-redux-isomorphic: ^0.5.0
-    react-redux-isomorphic-filterlist: ^0.1.0
+    react-redux-isomorphic: ^0.6.0
+    react-redux-isomorphic-filterlist: ^0.2.0
     react-router-dom: ^5.2.0
     redux: ^4.1.0
     sleep-promise: ^9.1.0
@@ -5170,7 +5170,7 @@ __metadata:
     react-bootstrap: ^1.4.0
     react-dom: ^17.0.1
     react-redux: ^7.2.2
-    react-redux-isomorphic: ^0.5.0
+    react-redux-isomorphic: ^0.6.0
     react-router-dom: ^5.2.0
     redux: ^4.0.5
     url: ^0.11.0
@@ -8155,7 +8155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux-isomorphic-filterlist@^0.1.0, react-redux-isomorphic-filterlist@workspace:packages/react-redux-isomorphic-filterlist":
+"react-redux-isomorphic-filterlist@^0.2.0, react-redux-isomorphic-filterlist@workspace:packages/react-redux-isomorphic-filterlist":
   version: 0.0.0-use.local
   resolution: "react-redux-isomorphic-filterlist@workspace:packages/react-redux-isomorphic-filterlist"
   dependencies:
@@ -8181,7 +8181,7 @@ __metadata:
     jest: ^27.0.6
     react: ^17.0.1
     react-redux: ^7.2.2
-    react-redux-isomorphic: ^0.5.0
+    react-redux-isomorphic: ^0.6.0
     redux: ^4.0.5
     rimraf: ^3.0.2
     ts-jest: ^27.0.3
@@ -8190,11 +8190,11 @@ __metadata:
     "@vtaits/filterlist": ^0.2.2
     "@vtaits/react-filterlist": ^0.3.0
     react: ^16.14.0 || ^17.0.0
-    react-redux-isomorphic: ^0.5.0
+    react-redux-isomorphic: ^0.6.0
   languageName: unknown
   linkType: soft
 
-"react-redux-isomorphic@^0.5.0, react-redux-isomorphic@workspace:packages/react-redux-isomorphic":
+"react-redux-isomorphic@^0.6.0, react-redux-isomorphic@workspace:packages/react-redux-isomorphic":
   version: 0.0.0-use.local
   resolution: "react-redux-isomorphic@workspace:packages/react-redux-isomorphic"
   dependencies:
