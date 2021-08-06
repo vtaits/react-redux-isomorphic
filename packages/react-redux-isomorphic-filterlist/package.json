@@ -1,6 +1,6 @@
 {
   "name": "react-redux-isomorphic-filterlist",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Integration of react-redux-isomorphic and @vtaits/react-filterlist",
   "main": "./lib/index.js",
   "module": "./es/index.js",

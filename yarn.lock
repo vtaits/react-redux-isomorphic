@@ -5132,7 +5132,7 @@ __metadata:
     react-dom: ^17.0.2
     react-redux: ^7.2.4
     react-redux-isomorphic: ^0.6.0
-    react-redux-isomorphic-filterlist: ^0.2.0
+    react-redux-isomorphic-filterlist: ^0.2.1
     react-router-dom: ^5.2.0
     redux: ^4.1.0
     sleep-promise: ^9.1.0
@@ -8155,7 +8155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux-isomorphic-filterlist@^0.2.0, react-redux-isomorphic-filterlist@workspace:packages/react-redux-isomorphic-filterlist":
+"react-redux-isomorphic-filterlist@^0.2.1, react-redux-isomorphic-filterlist@workspace:packages/react-redux-isomorphic-filterlist":
   version: 0.0.0-use.local
   resolution: "react-redux-isomorphic-filterlist@workspace:packages/react-redux-isomorphic-filterlist"
   dependencies:
