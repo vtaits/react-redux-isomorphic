@@ -190,7 +190,11 @@ LoadParams = DefaultLoadParams,
       },
     }),
 
-    [isomorphicId, listParams.filtersAndSortData],
+    [
+      isomorphicId,
+      listParams.filtersAndSortData,
+      listParams.canInit,
+    ],
   );
 
   const {
