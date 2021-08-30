@@ -1,12 +1,13 @@
 import type {
   FC,
 } from 'react';
+import loadable from '@loadable/component';
 
 import { Switch, Route } from 'react-router-dom';
 
-import Page404 from './page404';
-import User from './user';
-import Users from './users';
+const Page404 = loadable(() => import('./page404'));
+const User = loadable(() => import('./user'));
+const Users = loadable(() => import('./users'));
 
 const Routes: FC = () => (
   <Switch>

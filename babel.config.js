@@ -56,6 +56,10 @@ module.exports = {
           },
         ],
       ],
+
+      plugins: [
+        '@loadable/babel-plugin',
+      ],
     },
 
     test: {

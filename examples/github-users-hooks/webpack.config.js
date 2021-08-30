@@ -1,4 +1,5 @@
 const path = require('path');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const context = path.join(__dirname, 'client');
 
@@ -30,4 +31,5 @@ module.exports = {
     ],
     extensions: ['.js', '.ts', '.tsx'],
   },
+  plugins: [new LoadablePlugin()],
 };

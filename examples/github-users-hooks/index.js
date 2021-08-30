@@ -20,6 +20,7 @@ require('@babel/register')({
   plugins: [
     '@babel/plugin-transform-runtime',
     '@babel/plugin-proposal-class-properties',
+    '@loadable/babel-plugin',
   ],
 
   extensions: ['.ts', '.tsx', '.js', '.jsx'],

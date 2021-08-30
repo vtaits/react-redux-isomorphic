@@ -3,6 +3,8 @@ import fs from 'fs';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 
+import { ChunkExtractor } from '@loadable/server';
+
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -21,6 +23,9 @@ import reducers from './shared/reducers';
 import type {
   User,
 } from './shared/types';
+
+const statsFile = path.resolve('./dist/loadable-stats.json');
+const extractor = new ChunkExtractor({ statsFile });
 
 const app = express();
 
@@ -121,7 +126,7 @@ app.get('*', async (req, res) => {
   let status = 200;
 
   const context = {};
-  const componentForRender = (
+  const componentForRender = extractor.collectChunks(
     <Provider store={store}>
       <IsomorphicProvider
         loadParams={{

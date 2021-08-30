@@ -15,18 +15,17 @@ import type {
 } from './types';
 
 export const waitAndRender = async <Result>(
-  render: () => Result,
+  render: () => Result | Promise<Result>,
   store: Store<StoreState>,
 ): Promise<Result> => {
-  let result: Result;
+  let result = await render();
 
-  for (
-    result = render();
-    !isAllComponentsLoaded(store);
-    result = render()
-  ) {
+  while (!isAllComponentsLoaded(store)) {
     // eslint-disable-next-line no-await-in-loop
     await waitForContext(store);
+
+    // eslint-disable-next-line no-await-in-loop
+    result = await render();
   }
 
   return result;
