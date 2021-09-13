@@ -200,6 +200,7 @@ LoadParams = DefaultLoadParams,
   const {
     isReady,
     context: isomorphicContext,
+    error: isomorphicError,
   } = isomorphicResponse;
 
   const [
@@ -216,6 +217,16 @@ LoadParams = DefaultLoadParams,
     }
 
     if (listState.isFirstLoad) {
+      if (isomorphicError) {
+        return [
+          {
+            ...listInitialState,
+            ...isomorphicError,
+          },
+          filterlist,
+        ];
+      }
+
       return [
         {
           ...listInitialState,

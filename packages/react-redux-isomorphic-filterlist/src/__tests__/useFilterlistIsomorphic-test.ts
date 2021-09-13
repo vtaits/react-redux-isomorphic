@@ -794,6 +794,51 @@ describe('result', () => {
     ]);
   });
 
+  test('should return list state with error of `useIsomorphic` for first load', () => {
+    const filterlist = Symbol('filterlist');
+
+    const result = useFilterlistIsomorphicPure(
+      'testId',
+      defaultParams,
+      () => ({
+        ...defaultUseIsomorphicResponse,
+
+        error: {
+          error: 'test error',
+          additional: 'error additional',
+        } as any,
+
+        isReady: true,
+      }),
+      useLoadParamsMock,
+      collectListInitialStateMock,
+      collectOptionsMock,
+      () => [
+        {
+          ...defaultInitialState,
+          filters: {
+            filter1: 'value1',
+          },
+          items: [4, 5, 6],
+          additional: 'testAdditional2',
+          isFirstLoad: true,
+        } as any,
+        filterlist as any,
+      ],
+      useRefMock,
+      useMemoMock,
+    );
+
+    expect(result).toEqual([
+      {
+        ...defaultInitialState,
+        error: 'test error',
+        additional: 'error additional',
+      },
+      filterlist,
+    ]);
+  });
+
   test('should return list state with result of `useFilterlist` for not first load', () => {
     const filterlist = Symbol('filterlist');
 
