@@ -449,7 +449,15 @@ describe('useFilterlist', () => {
 
     useFilterlistIsomorphicPure(
       'testId',
-      defaultParams,
+
+      {
+        ...defaultParams,
+        loadItems: () => ({
+          items: [1, 2, 3],
+          additional: 'testAdditional' as any,
+        }),
+      },
+
       () => ({
         ...defaultUseIsomorphicResponse,
 
@@ -460,16 +468,9 @@ describe('useFilterlist', () => {
 
         isReady: true,
       }),
+
       useLoadParamsMock,
-      () => ({
-        ...defaultInitialState,
-
-        loadItems: () => ({
-          items: [1, 2, 3],
-        }),
-
-        additional: 'testAdditional' as any,
-      }),
+      () => defaultInitialState,
       collectOptionsMock,
       useFilterlist as typeof useFilterlistBase,
       useRefMock,
@@ -496,7 +497,15 @@ describe('useFilterlist', () => {
 
     useFilterlistIsomorphicPure(
       'testId',
-      defaultParams,
+
+      {
+        ...defaultParams,
+        loadItems: () => ({
+          items: [1, 2, 3],
+          additional: 'testAdditional' as any,
+        }),
+      },
+
       () => ({
         ...defaultUseIsomorphicResponse,
 
@@ -512,16 +521,9 @@ describe('useFilterlist', () => {
 
         isReady: true,
       }),
+
       useLoadParamsMock,
-      () => ({
-        ...defaultInitialState,
-
-        loadItems: () => ({
-          items: [1, 2, 3],
-        }),
-
-        additional: 'testAdditional' as any,
-      }),
+      () => defaultInitialState,
       collectOptionsMock,
       useFilterlist as typeof useFilterlistBase,
       useRefMock,
@@ -542,6 +544,57 @@ describe('useFilterlist', () => {
     expect(catchedError).toEqual({
       error: 'testError',
       additional: 'testAdditional3',
+    });
+  });
+
+  test('should ignore result from `useIsomorphic` for first load if `autoload` is false', async () => {
+    const useFilterlist = jest.fn<
+    ReturnType<typeof useFilterlistBase>,
+    Parameters<typeof useFilterlistBase>
+    >()
+      .mockReturnValue([defaultInitialState, null]);
+
+    useFilterlistIsomorphicPure(
+      'testId',
+
+      {
+        ...defaultParams,
+        loadItems: () => ({
+          items: [1, 2, 3],
+          additional: 'testAdditional' as any,
+        }),
+      },
+
+      () => ({
+        ...defaultUseIsomorphicResponse,
+
+        context: {
+          items: [4, 5, 6],
+          additional: 'testAdditional2',
+        } as any,
+
+        isReady: true,
+      }),
+
+      useLoadParamsMock,
+      () => defaultInitialState,
+      () => ({
+        ...defaultOptions,
+        autoload: false,
+      }),
+      useFilterlist as typeof useFilterlistBase,
+      useRefMock,
+      useMemoMock,
+    );
+
+    const result = await useFilterlist.mock.calls[0][0].loadItems({
+      ...defaultInitialState,
+      isFirstLoad: true,
+    });
+
+    expect(result).toEqual({
+      items: [1, 2, 3],
+      additional: 'testAdditional',
     });
   });
 

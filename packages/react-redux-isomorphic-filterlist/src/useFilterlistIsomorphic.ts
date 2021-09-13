@@ -151,7 +151,7 @@ LoadParams = DefaultLoadParams,
           };
         }
 
-        if (currentListState.isFirstLoad) {
+        if (listOptions.autoload && currentListState.isFirstLoad) {
           if (error) {
             throw new FilterlistError(error);
           }
