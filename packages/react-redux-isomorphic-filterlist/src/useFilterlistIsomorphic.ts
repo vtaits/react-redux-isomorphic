@@ -216,7 +216,7 @@ LoadParams = DefaultLoadParams,
       ];
     }
 
-    if (listState.isFirstLoad) {
+    if (listOptions.autoload && listState.isFirstLoad) {
       if (isomorphicError) {
         return [
           {

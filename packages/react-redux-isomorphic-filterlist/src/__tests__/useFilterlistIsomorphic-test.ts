@@ -104,7 +104,8 @@ const useRefMock: typeof useRefBase = () => ({
 
 describe('precount params', () => {
   test('should call `collectOptions` with all params', () => {
-    const collectOptions = jest.fn();
+    const collectOptions = jest.fn()
+      .mockReturnValue(defaultOptions);
 
     useFilterlistIsomorphicPure(
       'testId',
@@ -883,6 +884,60 @@ describe('result', () => {
         items: [4, 5, 6],
         additional: 'testAdditional2',
         isFirstLoad: false,
+      },
+      filterlist,
+    ]);
+  });
+
+  test('should return list state with result of `useFilterlist` if `autoload` falsy', () => {
+    const filterlist = Symbol('filterlist');
+
+    const result = useFilterlistIsomorphicPure(
+      'testId',
+      defaultParams,
+      () => ({
+        ...defaultUseIsomorphicResponse,
+
+        context: {
+          items: [1, 2, 3],
+          additional: 'testAdditional1',
+        } as any,
+
+        isReady: true,
+      }),
+      useLoadParamsMock,
+      collectListInitialStateMock,
+
+      () => ({
+        ...defaultOptions,
+        autoload: false,
+      }),
+
+      () => [
+        {
+          ...defaultInitialState,
+          filters: {
+            filter1: 'value1',
+          },
+          items: [4, 5, 6],
+          additional: 'testAdditional2',
+          isFirstLoad: true,
+        } as any,
+        filterlist as any,
+      ],
+      useRefMock,
+      useMemoMock,
+    );
+
+    expect(result).toEqual([
+      {
+        ...defaultInitialState,
+        filters: {
+          filter1: 'value1',
+        },
+        items: [4, 5, 6],
+        additional: 'testAdditional2',
+        isFirstLoad: true,
       },
       filterlist,
     ]);
