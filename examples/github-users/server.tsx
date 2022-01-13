@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server';
 import { renderToString } from 'react-dom/server';
 
 import { createStore } from 'redux';
@@ -120,7 +120,6 @@ app.get('*', async (req, res) => {
   let title = '';
   let status = 200;
 
-  const context = {};
   const componentForRender = (
     <Provider store={store}>
       <IsomorphicProvider
@@ -137,7 +136,6 @@ app.get('*', async (req, res) => {
       >
         <StaticRouter
           location={req.url}
-          context={context}
         >
           <Routes />
         </StaticRouter>

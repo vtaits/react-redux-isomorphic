@@ -1,5 +1,8 @@
+import {
+  useEffect,
+} from 'react';
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 import { mount } from 'enzyme';
 
@@ -8,9 +11,22 @@ import IsomorphicProvider from '../IsomorphicProvider';
 import inject from '../inject';
 
 test('should render injector with correct props', () => {
-  const TestComponent: FC<{
+  function TestComponent(props: {
     testProp: string;
-  }> = () => <div />;
+  }): ReactElement {
+    const {
+      testProp,
+    } = props;
+
+    useEffect(() => {
+      Promise.resolve(testProp);
+    }, [
+      testProp,
+    ]);
+
+    return <div />;
+  }
+
   const WithLoadParams = inject(TestComponent);
 
   const wrapper = mount(

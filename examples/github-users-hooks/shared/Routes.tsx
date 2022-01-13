@@ -1,31 +1,33 @@
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 import loadable from '@loadable/component';
 
-import { Switch, Route } from 'react-router-dom';
+import { Routes as RouterRoutes, Route } from 'react-router-dom';
 
 const Page404 = loadable(() => import('./page404'));
 const User = loadable(() => import('./user'));
 const Users = loadable(() => import('./users'));
 
-const Routes: FC = () => (
-  <Switch>
-    <Route
-      path="/:userId/"
-      component={User}
-    />
+function Routes(): ReactElement {
+  return (
+    <RouterRoutes>
+      <Route
+        path="/:userId/"
+        element={<User />}
+      />
 
-    <Route
-      path="/"
-      component={Users}
-    />
+      <Route
+        path="/"
+        element={<Users />}
+      />
 
-    <Route
-      path="*"
-      component={Page404}
-    />
-  </Switch>
-);
+      <Route
+        path="*"
+        element={<Page404 />}
+      />
+    </RouterRoutes>
+  );
+}
 
 export default Routes;

@@ -1,5 +1,8 @@
+import {
+  useEffect,
+} from 'react';
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
@@ -13,9 +16,17 @@ import { componentInitialState } from '../reducer';
 import isomorphic from '../isomorphic';
 
 const mockStore = configureStore([]);
-const TestComponent: FC<{
+function TestComponent(props: {
   [key: string]: any;
-}> = () => <div />;
+}): ReactElement {
+  useEffect(() => {
+    Promise.resolve(props);
+  }, [
+    props,
+  ]);
+
+  return <div />;
+}
 
 test('should throw error if getContext is not a function', () => {
   expect(() => {

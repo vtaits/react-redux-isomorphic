@@ -1,10 +1,8 @@
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 import { Link } from 'react-router-dom';
-import type {
-  RouteComponentProps,
-} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import sleep from 'sleep-promise';
 
 import { Container, Button } from 'react-bootstrap';
@@ -16,15 +14,11 @@ import type {
   ErrorResponse,
 } from '../types';
 
-const UserPage: FC<RouteComponentProps<{
-  userId: string;
-}>> = ({
-  match: {
-    params: {
-      userId,
-    },
-  },
-}) => {
+function UserPage(): ReactElement {
+  const {
+    userId,
+  } = useParams();
+
   const {
     isReady,
     isReloading,
@@ -180,6 +174,6 @@ const UserPage: FC<RouteComponentProps<{
       </div>
     </Container>
   );
-};
+}
 
 export default UserPage;

@@ -1,4 +1,7 @@
 /* eslint-disable max-classes-per-file,react/jsx-props-no-spreading */
+import type {
+  ReactElement,
+} from 'react';
 
 import { shallow } from 'enzyme';
 import type {
@@ -14,7 +17,9 @@ import type {
 
 import { LoadContextError } from '../errors';
 
-const TestComponent = () => <div />;
+function TestComponent(): ReactElement {
+  return <div />;
+}
 
 const defaultLoadParams = {
   fetch: () => Promise.resolve(123),

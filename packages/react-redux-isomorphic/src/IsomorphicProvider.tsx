@@ -1,3 +1,6 @@
+import {
+  useMemo,
+} from 'react';
 import type {
   ReactElement,
   ReactNode,
@@ -20,12 +23,17 @@ function IsomorphicProvider<LoadParams = DefaultLoadParams>({
   isFakeHooks,
   children,
 }: IsomorphicProviderProps<LoadParams>): ReactElement {
+  const value = useMemo(() => ({
+    loadParams,
+    isFakeHooks,
+  }), [
+    loadParams,
+    isFakeHooks,
+  ]);
+
   return (
     <IsomorphicContext.Provider
-      value={{
-        loadParams,
-        isFakeHooks,
-      }}
+      value={value}
     >
       {children}
     </IsomorphicContext.Provider>

@@ -1,5 +1,8 @@
+import {
+  useEffect,
+} from 'react';
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 import { mount } from 'enzyme';
 
@@ -12,10 +15,25 @@ const defaultLoadParams = {
   isServerRender: true,
 };
 
-const TestComponent: FC<{
+function TestComponent(props: {
   loadParams: Record<string, any>;
   testProp: string;
-}> = () => <div />;
+}): ReactElement {
+  const {
+    loadParams,
+    testProp,
+  } = props;
+
+  useEffect(() => {
+    Promise.resolve(loadParams);
+    Promise.resolve(testProp);
+  }, [
+    loadParams,
+    testProp,
+  ]);
+
+  return <div />;
+}
 
 test('should add loadParams to component props', () => {
   const wrapper = mount(

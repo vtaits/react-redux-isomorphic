@@ -2,7 +2,7 @@
 
 import type {
   ComponentType,
-  FC,
+  ReactElement,
 } from 'react';
 
 import useLoadParams from './useLoadParams';
@@ -15,7 +15,7 @@ function inject<BaseProps, LoadParams = DefaultLoadParams>(
     loadParams: LoadParams,
   }>,
 ): ComponentType<BaseProps> {
-  const WithLoadParams: FC<BaseProps> = (props) => {
+  function WithLoadParams(props: BaseProps): ReactElement {
     const loadParams = useLoadParams<LoadParams>();
 
     return (
@@ -24,7 +24,7 @@ function inject<BaseProps, LoadParams = DefaultLoadParams>(
         loadParams={loadParams}
       />
     );
-  };
+  }
 
   return WithLoadParams;
 }

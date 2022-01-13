@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server';
 import { renderToString } from 'react-dom/server';
 
 import { ChunkExtractor } from '@loadable/server';
@@ -125,7 +125,6 @@ app.get('*', async (req, res) => {
   let title = '';
   let status = 200;
 
-  const context = {};
   const componentForRender = extractor.collectChunks(
     <Provider store={store}>
       <IsomorphicProvider
@@ -142,7 +141,6 @@ app.get('*', async (req, res) => {
       >
         <StaticRouter
           location={req.url}
-          context={context}
         >
           <Routes />
         </StaticRouter>

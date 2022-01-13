@@ -1,30 +1,32 @@
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 
-import { Switch, Route } from 'react-router-dom';
+import { Routes as RouterRoutes, Route } from 'react-router-dom';
 
 import Page404 from './page404';
 import User from './user';
 import Users from './users';
 
-const Routes: FC = () => (
-  <Switch>
-    <Route
-      path="/:userId/"
-      component={User}
-    />
+function Routes(): ReactElement {
+  return (
+    <RouterRoutes>
+      <Route
+        path="/:userId/"
+        element={<User />}
+      />
 
-    <Route
-      path="/"
-      component={Users}
-    />
+      <Route
+        path="/"
+        element={<Users />}
+      />
 
-    <Route
-      path="*"
-      component={Page404}
-    />
-  </Switch>
-);
+      <Route
+        path="*"
+        element={<Page404 />}
+      />
+    </RouterRoutes>
+  );
+}
 
 export default Routes;

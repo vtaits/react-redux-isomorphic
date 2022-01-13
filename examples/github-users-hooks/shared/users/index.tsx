@@ -1,6 +1,6 @@
 import type {
   ChangeEventHandler,
-  FC,
+  ReactElement,
 } from 'react';
 import {
   useCallback,
@@ -20,7 +20,7 @@ import type {
   ErrorResponse,
 } from '../types';
 
-const UsersPage: FC = () => {
+function UsersPage(): ReactElement {
   const [
     listState,
     filterlist,
@@ -142,6 +142,6 @@ const UsersPage: FC = () => {
       }
     </Container>
   );
-};
+}
 
 export default UsersPage;

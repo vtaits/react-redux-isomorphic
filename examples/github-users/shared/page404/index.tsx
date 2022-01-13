@@ -1,11 +1,13 @@
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 
-const Page404: FC = () => (
-  <div>
-    404
-  </div>
-);
+function Page404(): ReactElement {
+  return (
+    <div>
+      404
+    </div>
+  );
+}
 
 export default Page404;

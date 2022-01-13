@@ -1,15 +1,12 @@
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 
 import { Link } from 'react-router-dom';
-import type {
-  RouteComponentProps,
-} from 'react-router-dom';
 
 import { Container, Table } from 'react-bootstrap';
 
-import { isomorphic, isomorphicPropTypes, LoadContextError } from 'react-redux-isomorphic';
+import { isomorphic, LoadContextError } from 'react-redux-isomorphic';
 import type {
   SingleState,
 } from 'react-redux-isomorphic';
@@ -26,13 +23,13 @@ type UsersPageProps = {
   isomorphic: SingleState<IsomorphicContext>;
 };
 
-const UsersPage: FC<UsersPageProps> = ({
+function UsersPage({
   isomorphic: {
     isReady,
     context,
     error,
   },
-}) => {
+}: UsersPageProps): ReactElement {
   if (error) {
     return (
       <Container>
@@ -84,9 +81,9 @@ const UsersPage: FC<UsersPageProps> = ({
       }
     </Container>
   );
-};
+}
 
-export default isomorphic<RouteComponentProps, IsomorphicContext>({
+export default isomorphic<{}, IsomorphicContext>({
   isomorphicId: 'usersList',
 
   getContext: async ({ fetch, setTitle }) => {

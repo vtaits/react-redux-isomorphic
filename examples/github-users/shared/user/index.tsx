@@ -1,10 +1,8 @@
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 import { Link } from 'react-router-dom';
-import type {
-  RouteComponentProps,
-} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { Container } from 'react-bootstrap';
 
@@ -29,13 +27,13 @@ type UserPageProps = {
   isomorphic: SingleState<IsomorphicContext>;
 };
 
-const UserPage: FC<UserPageProps> = ({
+function UserPage({
   isomorphic: {
     isReady,
     context,
     error,
   },
-}) => {
+}: UserPageProps): ReactElement {
   if (error) {
     return (
       <Container>
@@ -104,19 +102,19 @@ const UserPage: FC<UserPageProps> = ({
       }
     </Container>
   );
-};
+}
 
-export default isomorphic<RouteComponentProps<{
+const WithIsomorphic = isomorphic<{
   userId: string;
-}>, IsomorphicContext>({
+}, IsomorphicContext>({
   isomorphicId: 'userDetail',
 
-  getContext: async ({ fetch, setTitle, setStatus }, { match }) => {
+  getContext: async ({ fetch, setTitle, setStatus }, { userId }) => {
     const [
       userResponse,
       otherUsersResponse,
     ] = await Promise.all([
-      await fetch(`/api/users/${match.params.userId}/`),
+      await fetch(`/api/users/${userId}/`),
       await fetch('/api/users/'),
     ]);
 
@@ -151,5 +149,19 @@ export default isomorphic<RouteComponentProps<{
   },
 
   shouldReload: (newProps, oldProps) =>
-    newProps.match.params.userId !== oldProps.match.params.userId,
+    newProps.userId !== oldProps.userId,
 })(UserPage);
+
+function WithMatch(): ReactElement {
+  const {
+    userId,
+  } = useParams();
+
+  return (
+    <WithIsomorphic
+      userId={userId}
+    />
+  );
+}
+
+export default WithMatch;

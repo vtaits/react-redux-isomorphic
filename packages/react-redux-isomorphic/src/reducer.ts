@@ -34,9 +34,11 @@ export const componentInitialState = {
 };
 
 export const componentReducer = <IsomorphicContext, IsomorphicError>(
-  state: SingleState<IsomorphicContext, IsomorphicError> = componentInitialState,
+  prevState: SingleState<IsomorphicContext, IsomorphicError>,
   action: IsomorphicAction<IsomorphicContext, IsomorphicError>,
 ): SingleState<IsomorphicContext, IsomorphicError> => {
+  const state = prevState || componentInitialState;
+
   switch (action.type) {
     case LOAD_CONTEXT:
       return {
@@ -78,9 +80,11 @@ export const componentReducer = <IsomorphicContext, IsomorphicError>(
 };
 
 const reactReduxIsomorphic = (
-  state: FullState = initialState,
+  prevState: FullState,
   action: IsomorphicAction<any, any>,
 ): FullState => {
+  const state = prevState || initialState;
+
   switch (action.type) {
     case LOAD_CONTEXT:
       invariant(

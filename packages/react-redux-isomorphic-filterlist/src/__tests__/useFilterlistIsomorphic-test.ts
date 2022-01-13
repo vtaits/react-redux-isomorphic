@@ -11,6 +11,7 @@ import {
   collectListInitialState as collectListInitialStateBase,
   collectOptions as collectOptionsBase,
   LoadListError as FilterlistError,
+  ListState,
 } from '@vtaits/filterlist';
 
 import {
@@ -63,7 +64,7 @@ const isomorphicParams = {
 
 const useLoadParamsMock: typeof useLoadParamsBase = () => isomorphicParams as any;
 
-const defaultInitialState = {
+const defaultInitialState: ListState<any, any, any> = {
   sort: {
     asc: false,
     param: null,
@@ -76,6 +77,7 @@ const defaultInitialState = {
   isFirstLoad: false,
   items: [],
   shouldClean: false,
+  loadedPages: 0,
 };
 
 const collectListInitialStateMock: typeof collectListInitialStateBase = () => defaultInitialState;
