@@ -175,6 +175,44 @@ describe('useIsomorphic', () => {
     );
 
     expect(useIsomorphic).toHaveBeenCalledTimes(1);
+    expect(useIsomorphic.mock.calls[0][0]).toBe('testId');
+
+    const response = await useIsomorphic.mock.calls[0][1]({});
+
+    expect(response).toBe(null);
+    expect(parseFiltersAndSort).toHaveBeenCalledTimes(0);
+    expect(loadItems).toHaveBeenCalledTimes(0);
+  });
+
+  test('should not call `parseFiltersAndSort` and `loadItems` if `canInit` is falsy', async () => {
+    const parseFiltersAndSort = jest.fn();
+    const loadItems = jest.fn();
+    const useIsomorphic = jest.fn<
+    ReturnType<typeof useIsomorphicBase>,
+    Parameters<typeof useIsomorphicBase>
+    >()
+      .mockReturnValue(defaultUseIsomorphicResponse);
+
+    useFilterlistIsomorphicPure(
+      'testId',
+      {
+        ...defaultParams,
+        canInit: false,
+        parseFiltersAndSort,
+        loadItems,
+      },
+      useIsomorphic as typeof useIsomorphicBase,
+      useLoadParamsMock,
+      collectListInitialStateMock,
+      () => defaultOptions,
+      useFilterlistMock,
+      useRefMock,
+      useMemoMock,
+    );
+
+    expect(useIsomorphic).toHaveBeenCalledTimes(1);
+    expect(useIsomorphic.mock.calls[0][0]).toBe('testId/DELAYED_INIT');
+
     const response = await useIsomorphic.mock.calls[0][1]({});
 
     expect(response).toBe(null);
@@ -206,6 +244,8 @@ describe('useIsomorphic', () => {
     );
 
     expect(useIsomorphic).toHaveBeenCalledTimes(1);
+    expect(useIsomorphic.mock.calls[0][0]).toBe('testId');
+
     await useIsomorphic.mock.calls[0][1](isomorphicParams);
 
     expect(loadItems).toHaveBeenCalledTimes(1);
@@ -399,8 +439,50 @@ describe('useFilterlist', () => {
       useMemoMock,
     );
 
+    expect(useFilterlist.mock.calls[0][1][0]).toBe('testId');
+
     const filterlistParams = useFilterlist.mock.calls[0][0];
 
+    expect(filterlistParams.additional).toBe('testAdditional');
+    expect(filterlistParams.appliedFilters).toEqual({
+      filter1: 'value1',
+    });
+  });
+
+  test('should provide all params with redefined `loadItems` if `canInit` falsy', () => {
+    const useFilterlist = jest.fn<
+    ReturnType<typeof useFilterlistBase>,
+    Parameters<typeof useFilterlistBase>
+    >()
+      .mockReturnValue([defaultInitialState, null]);
+
+    useFilterlistIsomorphicPure(
+      'testId',
+      {
+        canInit: false,
+        additional: 'testAdditional',
+        appliedFilters: {
+          filter1: 'value1',
+        },
+
+        loadItems: () => ({
+          items: [],
+        }),
+      },
+      useIsomorphicMock,
+      useLoadParamsMock,
+      collectListInitialStateMock,
+      collectOptionsMock,
+      useFilterlist as typeof useFilterlistBase,
+      useRefMock,
+      useMemoMock,
+    );
+
+    expect(useFilterlist.mock.calls[0][1][0]).toBe('testId/DELAYED_INIT');
+
+    const filterlistParams = useFilterlist.mock.calls[0][0];
+
+    expect(filterlistParams.canInit).toBe(false);
     expect(filterlistParams.additional).toBe('testAdditional');
     expect(filterlistParams.appliedFilters).toEqual({
       filter1: 'value1',

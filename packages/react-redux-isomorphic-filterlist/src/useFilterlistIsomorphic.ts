@@ -38,6 +38,8 @@ import type {
   UseFilterlistIsomorphicReturn,
 } from './types';
 
+export const DELAYED_INIT_POSTFIX = '/DELAYED_INIT';
+
 export const useFilterlistIsomorphicPure = <
 Item,
 Additional,
@@ -45,7 +47,7 @@ ErrorType,
 FiltersAndSortData,
 LoadParams = DefaultLoadParams,
 >(
-    isomorphicId: string,
+    isomorphicIdParam: string,
     listParams: Params<Item, Additional, ErrorType, FiltersAndSortData, LoadParams>,
     useIsomorphic: typeof useIsomorphicBase,
     useLoadParams: typeof useLoadParamsBase,
@@ -59,6 +61,14 @@ LoadParams = DefaultLoadParams,
   ItemsLoaderResponse<Item, Additional>,
   IsomorphicErrorType<ErrorType, Additional>
   >>(null);
+
+  const canInit = typeof listParams.canInit === 'boolean'
+    ? listParams.canInit
+    : true;
+
+  const isomorphicId = canInit
+    ? isomorphicIdParam
+    : `${isomorphicIdParam}${DELAYED_INIT_POSTFIX}`;
 
   const listOptions = useMemo(
     () => collectOptions(
@@ -80,7 +90,7 @@ LoadParams = DefaultLoadParams,
   IsomorphicErrorType<ErrorType, Additional>,
   LoadParams
   >(isomorphicId, async () => {
-    if (!listOptions.autoload) {
+    if (!canInit || !listOptions.autoload) {
       return null;
     }
 
@@ -193,7 +203,6 @@ LoadParams = DefaultLoadParams,
     [
       isomorphicId,
       listParams.filtersAndSortData,
-      listParams.canInit,
     ],
   );
 
