@@ -210,7 +210,7 @@ const componentForRender = (
 // server.jsx
 
 import fetch from 'node-fetch';
-import Provider from 'react-redux;
+import Provider from 'react-redux';
 import { IsomorphicProvider, waitAndRender } from 'react-redux-isomorphic';
 
 import express from 'express';
